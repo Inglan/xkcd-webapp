@@ -10,6 +10,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import {
+  Bookmark,
+  BookmarkCheck,
+  ChevronLeft,
+  ChevronRight,
+  Dice5,
+  Share,
+} from "lucide-react";
 
 export default function Home() {
   return (
@@ -24,6 +32,24 @@ export default function Home() {
           <Card className="p-3">
             <img src="https://imgs.xkcd.com/comics/flettner_rotor.png" alt="" />
           </Card>
+          <div className="flex gap-2 w-full">
+            <Button size="icon" variant="ghost">
+              <ChevronLeft />
+            </Button>
+            <Button size="icon" variant="ghost">
+              <ChevronRight />
+            </Button>
+            <Button size="icon" variant="ghost">
+              <Dice5 />
+            </Button>
+            <div className="grow"></div>
+            <Button size="icon" variant="ghost">
+              <Bookmark />
+            </Button>
+            <Button size="icon">
+              <Share />
+            </Button>
+          </div>
         </div>
       </div>
     </div>
