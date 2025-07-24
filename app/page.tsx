@@ -46,7 +46,7 @@ export default function Home() {
             <Button size="icon" variant="ghost">
               <Bookmark />
             </Button>
-            <Button size="icon">
+            <Button size="icon" variant="ghost">
               <Share />
             </Button>
           </div>
