@@ -1,10 +1,21 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Book,
   Bookmark,
   ChevronLeft,
   ChevronRight,
   Dice5,
+  Download,
+  EllipsisVertical,
   Share,
 } from "lucide-react";
 
@@ -33,9 +44,27 @@ export default function Home() {
             <Button size="icon" variant="ghost">
               <Bookmark />
             </Button>
-            <Button size="icon" variant="ghost">
-              <Share />
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                className={buttonVariants({ size: "icon", variant: "ghost" })}
+              >
+                <EllipsisVertical />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem>
+                  <Share />
+                  Share
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Download />
+                  Download
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Book />
+                  Explain
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
