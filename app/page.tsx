@@ -22,10 +22,7 @@ export default function Home() {
       <div className="flex w-full h-full justify-center items-center">
         <div className="flex flex-col gap-3 max-w-[95%] max-h-[95%]">
           <Card className="p-3">
-            <Image
-              src="https://imgs.xkcd.com/comics/flettner_rotor.png"
-              alt=""
-            />
+            <img src="https://imgs.xkcd.com/comics/flettner_rotor.png" alt="" />
           </Card>
         </div>
       </div>
