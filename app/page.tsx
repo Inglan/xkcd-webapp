@@ -29,9 +29,7 @@ export default function Home() {
       </div>
       <div className="flex w-full h-full justify-center items-center">
         <div className="flex flex-col gap-3 max-w-[95%] max-h-[95%]">
-          <Card className="p-3">
-            <img src="https://imgs.xkcd.com/comics/flettner_rotor.png" alt="" />
-          </Card>
+          <img src="https://imgs.xkcd.com/comics/flettner_rotor.png" alt="" />
           <div className="flex gap-2 w-full">
             <Button size="icon" variant="ghost">
               <ChevronLeft />
