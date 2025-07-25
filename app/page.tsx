@@ -66,8 +66,9 @@ export default function Home() {
 
 function ActionsBar() {
   return (
-    <div className="flex gap-2 p-3 w-fit border rounded-md">
+    <div className="flex gap-2 p-3 md:w-fit w-full border rounded-md">
       <Badge>#3119</Badge>
+      <div className="grow"></div>
       <Button size="icon" variant="ghost">
         <Search />
       </Button>
