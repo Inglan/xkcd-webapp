@@ -1,4 +1,8 @@
+"use client";
+
+import { useMediaQuery } from "usehooks-ts";
 import Link from "next/link";
+import { useState } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -21,6 +25,24 @@ import {
   Share,
   Text,
 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { Badge } from "@/components/ui/badge";
 
 export default function Home() {
@@ -61,6 +83,7 @@ function ActionsBar() {
       <Button size="icon" variant="ghost">
         <Bookmark />
       </Button>
+      <MoreButton />
       <DropdownMenu>
         <DropdownMenuTrigger
           className={buttonVariants({ size: "icon", variant: "ghost" })}
@@ -83,5 +106,27 @@ function ActionsBar() {
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
+  );
+}
+
+function MoreButton() {
+  const [open, setOpen] = useState(false);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+  return (
+    <>
+      <Button size="icon" variant="ghost" onClick={() => setOpen(!open)}>
+        <EllipsisVertical />
+      </Button>
+
+      {isDesktop ? (
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogContent>Test</DialogContent>
+        </Dialog>
+      ) : (
+        <Drawer open={open} onOpenChange={setOpen}>
+          <DrawerContent>test</DrawerContent>
+        </Drawer>
+      )}
+    </>
   );
 }
