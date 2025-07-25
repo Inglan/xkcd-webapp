@@ -61,9 +61,6 @@ function ActionsBar() {
       <Button size="icon" variant="ghost">
         <Bookmark />
       </Button>
-      <Button size="icon" variant="ghost">
-        <Info />
-      </Button>
       <DropdownMenu>
         <DropdownMenuTrigger
           className={buttonVariants({ size: "icon", variant: "ghost" })}
