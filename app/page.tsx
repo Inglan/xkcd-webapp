@@ -83,7 +83,7 @@ function ActionsBar() {
       <Button size="icon" variant="ghost">
         <Bookmark />
       </Button>
-      <MoreButton />
+      <MoreButton>jerry</MoreButton>
       <DropdownMenu>
         <DropdownMenuTrigger
           className={buttonVariants({ size: "icon", variant: "ghost" })}
@@ -109,7 +109,7 @@ function ActionsBar() {
   );
 }
 
-function MoreButton() {
+function MoreButton({ children }: { children?: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   return (
@@ -120,11 +120,11 @@ function MoreButton() {
 
       {isDesktop ? (
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent>Test</DialogContent>
+          <DialogContent>{children && children}</DialogContent>
         </Dialog>
       ) : (
         <Drawer open={open} onOpenChange={setOpen}>
-          <DrawerContent>test</DrawerContent>
+          <DrawerContent>{children && children}</DrawerContent>
         </Drawer>
       )}
     </>
