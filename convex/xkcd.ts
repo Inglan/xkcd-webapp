@@ -3,7 +3,7 @@ import { action } from "./_generated/server";
 
 export const getById = action({
   handler: async (ctx, args) => {
-    const data = await fetch(`https://xkcd.com/info.${args.id}.json`);
+    const data = await fetch(`https://xkcd.com/${args.id}/info.0.json`);
     const json = (await data.json()) as {
       month: string;
       num: number;
