@@ -83,7 +83,10 @@ function ActionsBar() {
       <Button size="icon" variant="ghost">
         <Bookmark />
       </Button>
-      <MoreButton>jerry</MoreButton>
+      <MoreButton
+        title="Flettner Rotor"
+        description='"And in maritime news, the Coast Guard is on the scene today after an apparent collision between two lighthouses."'
+      />
       <DropdownMenu>
         <DropdownMenuTrigger
           className={buttonVariants({ size: "icon", variant: "ghost" })}
@@ -109,7 +112,13 @@ function ActionsBar() {
   );
 }
 
-function MoreButton({ children }: { children?: React.ReactNode }) {
+function MoreButton({
+  title = "More",
+  description = "",
+}: {
+  title?: string;
+  description?: string;
+}) {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   return (
@@ -120,11 +129,44 @@ function MoreButton({ children }: { children?: React.ReactNode }) {
 
       {isDesktop ? (
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent>{children && children}</DialogContent>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{title}</DialogTitle>
+              <DialogDescription>{description}</DialogDescription>
+            </DialogHeader>
+
+            <div className="grid grid-cols-2 gap-3">
+              <Button variant="ghost">
+                <Share />
+                Share
+              </Button>
+              <Button variant="ghost">
+                <Download />
+                Download
+              </Button>
+            </div>
+          </DialogContent>
         </Dialog>
       ) : (
         <Drawer open={open} onOpenChange={setOpen}>
-          <DrawerContent>{children && children}</DrawerContent>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle className="text-left">{title}</DrawerTitle>
+              <DrawerDescription className="text-left">
+                {description}
+              </DrawerDescription>
+            </DrawerHeader>
+            <DrawerFooter className="grid grid-cols-2 gap-3">
+              <Button variant="ghost">
+                <Share />
+                Share
+              </Button>
+              <Button variant="ghost">
+                <Download />
+                Download
+              </Button>
+            </DrawerFooter>
+          </DrawerContent>
         </Drawer>
       )}
     </>
