@@ -30,8 +30,26 @@ import {
 import Link from "next/link";
 import { useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
+import { useAction } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export default function Home() {
+  const [img, setImg] = useState(
+    "https://imgs.xkcd.com/comics/flettner_rotor.png",
+  );
+  const [title, setTitle] = useState("Flettner Rotor");
+  const [alt, setAlt] = useState("Flettner Rotor");
+  const [num, setNum] = useState(0);
+
+  const getById = useAction(api.xkcd.getById);
+
+  getById({ id: 927 }).then((data) => {
+    setTitle(data.title);
+    setImg(data.img);
+    setAlt(data.alt);
+    setNum(data.num);
+  });
+
   return (
     <div className="h-screen w-screen flex flex-col items-center p-3">
       <div className="flex flex-row container m-auto gap-3">
@@ -42,18 +60,26 @@ export default function Home() {
 
       <div className="flex w-full h-full justify-center items-center">
         <div className="flex flex-col max-w-[95%] max-h-[95%]">
-          <img src="https://imgs.xkcd.com/comics/flettner_rotor.png" alt="" />
+          <img src={img} alt={alt} />
         </div>
       </div>
-      <ActionsBar />
+      <ActionsBar title={title} alt={alt} num={num} />
     </div>
   );
 }
 
-function ActionsBar() {
+function ActionsBar({
+  title,
+  alt,
+  num,
+}: {
+  title: string;
+  alt: string;
+  num: number;
+}) {
   return (
     <div className="flex gap-2 p-3 md:w-fit w-full border rounded-md">
-      <Badge>#3119</Badge>
+      <Badge>#{num}</Badge>
       <div className="grow"></div>
       <Button size="icon" variant="ghost">
         <Search />
@@ -70,10 +96,7 @@ function ActionsBar() {
       <Button size="icon" variant="ghost">
         <Bookmark />
       </Button>
-      <MoreButton
-        title="Flettner Rotor"
-        description='"And in maritime news, the Coast Guard is on the scene today after an apparent collision between two lighthouses."'
-      />
+      <MoreButton title={title} description={alt} />
     </div>
   );
 }
