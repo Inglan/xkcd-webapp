@@ -16,6 +16,7 @@ import {
   Dice5,
   Download,
   EllipsisVertical,
+  Search,
   Share,
   Text,
 } from "lucide-react";
@@ -36,6 +37,9 @@ export default function Home() {
       </div>
 
       <div className="flex gap-2 p-3 w-fit border rounded-md">
+        <Button size="icon" variant="ghost">
+          <Search />
+        </Button>
         <Button size="icon" variant="ghost">
           <ChevronLeft />
         </Button>
