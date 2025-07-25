@@ -63,7 +63,7 @@ export default function Home() {
           <img src={img} alt={alt} />
         </div>
       </div>
-      <ActionsBar title={title} alt={alt} num={num} />
+      <ActionsBar title={title} alt={alt} num={num} setNum={setNum} />
     </div>
   );
 }
@@ -72,10 +72,12 @@ function ActionsBar({
   title,
   alt,
   num,
+  setNum,
 }: {
   title: string;
   alt: string;
   num: number;
+  setNum: (num: number) => void;
 }) {
   return (
     <div className="flex gap-2 p-3 md:w-fit w-full border rounded-md">
