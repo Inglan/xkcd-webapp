@@ -22,8 +22,8 @@ import {
 
 export default function Home() {
   return (
-    <div className="h-screen w-screen flex flex-col items-center">
-      <div className="flex flex-row container m-auto p-3 gap-3">
+    <div className="h-screen w-screen flex flex-col items-center p-3">
+      <div className="flex flex-row container m-auto gap-3">
         <Link href="/">xkcd-webapp</Link>
         <div className="grow"></div>
         <Link href="/saved">Saved</Link>
@@ -35,7 +35,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex gap-2 p-3 w-full md:w-fit">
+      <div className="flex gap-2 p-3 w-full md:w-fit border rounded-md">
         <Button size="icon" variant="ghost">
           <ChevronLeft />
         </Button>
