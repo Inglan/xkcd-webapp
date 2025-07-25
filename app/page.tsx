@@ -37,49 +37,54 @@ export default function Home() {
           <img src="https://imgs.xkcd.com/comics/flettner_rotor.png" alt="" />
         </div>
       </div>
+      <ActionsBar />
+    </div>
+  );
+}
 
-      <div className="flex gap-2 p-3 w-fit border rounded-md">
-        <Badge>#3119</Badge>
-        <Button size="icon" variant="ghost">
-          <Search />
-        </Button>
-        <Button size="icon" variant="ghost">
-          <ChevronLeft />
-        </Button>
-        <Button size="icon" variant="ghost">
-          <ChevronRight />
-        </Button>
-        <Button size="icon" variant="ghost">
-          <Dice5 />
-        </Button>
-        <Button size="icon" variant="ghost">
-          <Bookmark />
-        </Button>
-        <Button size="icon" variant="ghost">
-          <Info />
-        </Button>
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            className={buttonVariants({ size: "icon", variant: "ghost" })}
-          >
-            <EllipsisVertical />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>
-              <Share />
-              Share
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Download />
-              Download
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Book />
-              Explain
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+function ActionsBar() {
+  return (
+    <div className="flex gap-2 p-3 w-fit border rounded-md">
+      <Badge>#3119</Badge>
+      <Button size="icon" variant="ghost">
+        <Search />
+      </Button>
+      <Button size="icon" variant="ghost">
+        <ChevronLeft />
+      </Button>
+      <Button size="icon" variant="ghost">
+        <ChevronRight />
+      </Button>
+      <Button size="icon" variant="ghost">
+        <Dice5 />
+      </Button>
+      <Button size="icon" variant="ghost">
+        <Bookmark />
+      </Button>
+      <Button size="icon" variant="ghost">
+        <Info />
+      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          className={buttonVariants({ size: "icon", variant: "ghost" })}
+        >
+          <EllipsisVertical />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>
+            <Share />
+            Share
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Download />
+            Download
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Book />
+            Explain
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 }
