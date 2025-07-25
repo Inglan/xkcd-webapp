@@ -1,19 +1,7 @@
 "use client";
 
-import { useMediaQuery } from "usehooks-ts";
-import Link from "next/link";
-import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Bookmark,
-  ChevronLeft,
-  ChevronRight,
-  Dice5,
-  Download,
-  EllipsisVertical,
-  Search,
-  Share,
-} from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -29,7 +17,19 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import { Badge } from "@/components/ui/badge";
+import {
+  Bookmark,
+  ChevronLeft,
+  ChevronRight,
+  Dice5,
+  Download,
+  EllipsisVertical,
+  Search,
+  Share,
+} from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { useMediaQuery } from "usehooks-ts";
 
 export default function Home() {
   return (
