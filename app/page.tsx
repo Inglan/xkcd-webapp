@@ -87,27 +87,6 @@ function ActionsBar() {
         title="Flettner Rotor"
         description='"And in maritime news, the Coast Guard is on the scene today after an apparent collision between two lighthouses."'
       />
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          className={buttonVariants({ size: "icon", variant: "ghost" })}
-        >
-          <EllipsisVertical />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem>
-            <Share />
-            Share
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Download />
-            Download
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Book />
-            Explain
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
     </div>
   );
 }
