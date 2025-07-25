@@ -16,6 +16,7 @@ import {
   Dice5,
   Download,
   EllipsisVertical,
+  Info,
   Search,
   Share,
   Text,
@@ -55,7 +56,7 @@ export default function Home() {
           <Bookmark />
         </Button>
         <Button size="icon" variant="ghost">
-          <Text />
+          <Info />
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger
