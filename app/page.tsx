@@ -20,6 +20,7 @@ import {
   Share,
   Text,
 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 export default function Home() {
   return (
@@ -37,6 +38,7 @@ export default function Home() {
       </div>
 
       <div className="flex gap-2 p-3 w-fit border rounded-md">
+        <Badge>#3119</Badge>
         <Button size="icon" variant="ghost">
           <Search />
         </Button>
