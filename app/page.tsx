@@ -35,7 +35,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex gap-2 p-3 w-full md:w-fit border rounded-md">
+      <div className="flex gap-2 p-3 w-fit border rounded-md">
         <Button size="icon" variant="ghost">
           <ChevronLeft />
         </Button>
@@ -45,7 +45,6 @@ export default function Home() {
         <Button size="icon" variant="ghost">
           <Dice5 />
         </Button>
-        <div className="grow"></div>
         <Button size="icon" variant="ghost">
           <Bookmark />
         </Button>
