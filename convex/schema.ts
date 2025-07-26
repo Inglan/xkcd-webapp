@@ -19,7 +19,7 @@ const schema = defineSchema({
     img: v.string(),
     title: v.string(),
     day: v.string(),
-  }),
+  }).index("by_num", ["num"]),
   ...authTables,
 });
 
