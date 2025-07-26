@@ -99,7 +99,19 @@ export const getById = action({
       day: string;
     };
 
-    await ctx.runMutation(internal.xkcd.cacheComic, json);
+    await ctx.runMutation(internal.xkcd.cacheComic, {
+      month: json.month,
+      num: json.num,
+      link: json.link,
+      year: json.year,
+      news: json.news,
+      safe_title: json.safe_title,
+      transcript: json.transcript,
+      alt: json.alt,
+      img: json.img,
+      title: json.title,
+      day: json.day,
+    });
 
     return json;
   },
