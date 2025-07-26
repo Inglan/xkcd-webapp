@@ -41,7 +41,7 @@ export default function Home() {
   );
   const [title, setTitle] = useState("Flettner Rotor");
   const [alt, setAlt] = useState("Flettner Rotor");
-  const [num, setNum] = useState(0);
+  const [num, setNum] = useState(1000);
   const [loading, setLoading] = useState(false);
 
   const getById = useAction(api.xkcd.getById);
