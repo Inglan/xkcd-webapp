@@ -34,6 +34,7 @@ import { useMediaQuery } from "usehooks-ts";
 import { useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import clsx from "clsx";
+import { toast } from "sonner";
 
 export default function Home() {
   const [img, setImg] = useState(
@@ -47,6 +48,8 @@ export default function Home() {
   const getById = useAction(api.xkcd.getById);
 
   function loadById(id: number) {
+    let previousNum = num;
+
     setNum(id);
     setLoading(true);
 
@@ -56,8 +59,11 @@ export default function Home() {
         setImg(data.img);
         setAlt(data.alt);
       })
-      .catch(() => {
+      .catch((error) => {
         setLoading(false);
+        setNum(previousNum);
+        toast.error("Something went wrong");
+        console.error(error);
       });
   }
 
