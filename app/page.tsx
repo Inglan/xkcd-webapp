@@ -104,7 +104,7 @@ function ActionsBar({
   loadById: (id: number) => void;
 }) {
   return (
-    <div className="flex gap-2 p-3 md:w-fit w-full border rounded-md">
+    <div className="flex gap-2 p-3 md:w-fit w-full border-t md:border md:rounded-md fixed bottom-0 md:bottom-3 bg-background">
       <Badge>#{num}</Badge>
       <div className="grow"></div>
       <Button size="icon" variant="ghost">
