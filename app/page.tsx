@@ -50,11 +50,15 @@ export default function Home() {
     setNum(id);
     setLoading(true);
 
-    getById({ id }).then((data) => {
-      setTitle(data.title);
-      setImg(data.img);
-      setAlt(data.alt);
-    });
+    getById({ id })
+      .then((data) => {
+        setTitle(data.title);
+        setImg(data.img);
+        setAlt(data.alt);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   }
 
   return (
