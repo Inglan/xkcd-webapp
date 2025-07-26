@@ -52,25 +52,37 @@ export const cacheComic = internalMutation({
 
 export const getById = action({
   handler: async (ctx, args) => {
-    // const cachedComic = await ctx.runQuery(internal.xkcd.getCachedById, {
-    //   id: args.id,
-    // });
+    const cachedComic: {
+      month: string;
+      num: number;
+      link: string;
+      year: string;
+      news: string;
+      safe_title: string;
+      transcript: string;
+      alt: string;
+      img: string;
+      title: string;
+      day: string;
+    }[] = await ctx.runQuery(internal.xkcd.getCachedById, {
+      id: args.id,
+    });
 
-    // if (cachedComic.length > 0) {
-    //   return {
-    //     month: cachedComic.month,
-    //     num: cachedComic.number,
-    //     link: cachedComic.string,
-    //     year: cachedComic.string,
-    //     news: cachedComic.string,
-    //     safe_title: cachedComic.string,
-    //     transcript: cachedComic.string,
-    //     alt: cachedComic.string,
-    //     img: cachedComic.string,
-    //     title: cachedComic.string,
-    //     day: cachedComic.string,
-    //   };
-    // }
+    if (cachedComic.length > 0) {
+      return {
+        month: cachedComic[0].month,
+        num: cachedComic[0].num,
+        link: cachedComic[0].link,
+        year: cachedComic[0].year,
+        news: cachedComic[0].news,
+        safe_title: cachedComic[0].safe_title,
+        transcript: cachedComic[0].transcript,
+        alt: cachedComic[0].alt,
+        img: cachedComic[0].img,
+        title: cachedComic[0].title,
+        day: cachedComic[0].day,
+      };
+    }
 
     const data = await fetch(`https://xkcd.com/${args.id}/info.0.json`);
     const json = (await data.json()) as {
