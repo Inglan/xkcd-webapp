@@ -49,8 +49,6 @@ export default function Home() {
   function loadById(id: number) {
     let previousNum = num;
     let previousImg = img;
-    let previousTitle = title;
-    let previousAlt = alt;
 
     setNum(id);
     setLoading(true);
