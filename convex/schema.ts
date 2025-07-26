@@ -7,6 +7,19 @@ const schema = defineSchema({
     num: v.number(),
     user: v.id("users"),
   }),
+  comics: defineTable({
+    month: v.string(),
+    num: v.number(),
+    link: v.string(),
+    year: v.string(),
+    news: v.string(),
+    safe_title: v.string(),
+    transcript: v.string(),
+    alt: v.string(),
+    img: v.string(),
+    title: v.string(),
+    day: v.string(),
+  }),
   ...authTables,
 });
 
