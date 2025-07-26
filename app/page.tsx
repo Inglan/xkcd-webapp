@@ -43,12 +43,14 @@ export default function Home() {
 
   const getById = useAction(api.xkcd.getById);
 
-  getById({ id: 927 }).then((data) => {
-    setTitle(data.title);
-    setImg(data.img);
-    setAlt(data.alt);
-    setNum(data.num);
-  });
+  function loadById(id: number) {
+    getById({ id }).then((data) => {
+      setTitle(data.title);
+      setImg(data.img);
+      setAlt(data.alt);
+      setNum(data.num);
+    });
+  }
 
   return (
     <div className="h-screen w-screen flex flex-col items-center p-3">
@@ -63,7 +65,13 @@ export default function Home() {
           <img src={img} alt={alt} />
         </div>
       </div>
-      <ActionsBar title={title} alt={alt} num={num} setNum={setNum} />
+      <ActionsBar
+        title={title}
+        alt={alt}
+        num={num}
+        setNum={setNum}
+        loadById={loadById}
+      />
     </div>
   );
 }
@@ -73,11 +81,13 @@ function ActionsBar({
   alt,
   num,
   setNum,
+  loadById,
 }: {
   title: string;
   alt: string;
   num: number;
   setNum: (num: number) => void;
+  loadById: (id: number) => void;
 }) {
   return (
     <div className="flex gap-2 p-3 md:w-fit w-full border rounded-md">
@@ -86,10 +96,26 @@ function ActionsBar({
       <Button size="icon" variant="ghost">
         <Search />
       </Button>
-      <Button size="icon" variant="ghost">
+      <Button
+        size="icon"
+        variant="ghost"
+        onClick={() => {
+          if (num - 1 > 0) {
+            loadById(num - 1);
+          }
+        }}
+      >
         <ChevronLeft />
       </Button>
-      <Button size="icon" variant="ghost">
+      <Button
+        size="icon"
+        variant="ghost"
+        onClick={() => {
+          if (num + 1 > 0) {
+            loadById(num + 1);
+          }
+        }}
+      >
         <ChevronRight />
       </Button>
       <Button size="icon" variant="ghost">
