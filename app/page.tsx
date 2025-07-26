@@ -29,7 +29,7 @@ import {
   Share,
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -37,18 +37,20 @@ import clsx from "clsx";
 import { toast } from "sonner";
 
 export default function Home() {
-  const [img, setImg] = useState(
-    "https://imgs.xkcd.com/comics/flettner_rotor.png",
-  );
-  const [title, setTitle] = useState("Flettner Rotor");
-  const [alt, setAlt] = useState("Flettner Rotor");
-  const [num, setNum] = useState(1000);
-  const [loading, setLoading] = useState(false);
+  const [img, setImg] = useState("");
+  const [title, setTitle] = useState("");
+  const [alt, setAlt] = useState("");
+  const [num, setNum] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const getById = useAction(api.xkcd.getById);
+  const getLatest = useAction(api.xkcd.getLatest);
 
   function loadById(id: number) {
     let previousNum = num;
+    let previousImg = img;
+    let previousTitle = title;
+    let previousAlt = alt;
 
     setNum(id);
     setLoading(true);
@@ -58,6 +60,9 @@ export default function Home() {
         setTitle(data.title);
         setImg(data.img);
         setAlt(data.alt);
+        if (data.img == previousImg) {
+          setLoading(false);
+        }
       })
       .catch((error) => {
         setLoading(false);
@@ -66,6 +71,15 @@ export default function Home() {
         console.error(error);
       });
   }
+
+  useEffect(() => {
+    getLatest({}).then((data) => {
+      setNum(data.num);
+      setTitle(data.title);
+      setImg(data.img);
+      setAlt(data.alt);
+    });
+  }, []);
 
   return (
     <div className="h-screen w-screen flex flex-col items-center p-3">
@@ -79,14 +93,16 @@ export default function Home() {
         <div className="flex flex-col max-w-[95%] max-h-[95%]">
           {loading && <LoaderCircle className="animate-spin" />}
 
-          <img
-            className={clsx(loading && "hidden")}
-            onLoad={() => {
-              setLoading(false);
-            }}
-            src={img}
-            alt={alt}
-          />
+          {img && (
+            <img
+              className={clsx(loading && "hidden")}
+              onLoad={() => {
+                setLoading(false);
+              }}
+              src={img}
+              alt={alt}
+            />
+          )}
         </div>
       </div>
       <ActionsBar
