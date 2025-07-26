@@ -24,6 +24,7 @@ import {
   Dice5,
   Download,
   EllipsisVertical,
+  LoaderCircle,
   Search,
   Share,
 } from "lucide-react";
@@ -32,6 +33,7 @@ import { useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import clsx from "clsx";
 
 export default function Home() {
   const [img, setImg] = useState(
@@ -40,11 +42,13 @@ export default function Home() {
   const [title, setTitle] = useState("Flettner Rotor");
   const [alt, setAlt] = useState("Flettner Rotor");
   const [num, setNum] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const getById = useAction(api.xkcd.getById);
 
   function loadById(id: number) {
     setNum(id);
+    setLoading(true);
 
     getById({ id }).then((data) => {
       setTitle(data.title);
@@ -63,7 +67,16 @@ export default function Home() {
 
       <div className="flex w-full h-full justify-center items-center">
         <div className="flex flex-col max-w-[95%] max-h-[95%]">
-          <img key={num} src={img} alt={alt} />
+          {loading && <LoaderCircle className="animate-spin" />}
+
+          <img
+            className={clsx(loading && "hidden")}
+            onLoad={() => {
+              setLoading(false);
+            }}
+            src={img}
+            alt={alt}
+          />
         </div>
       </div>
       <ActionsBar
