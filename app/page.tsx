@@ -109,6 +109,7 @@ export default function Home() {
         num={num}
         setNum={setNum}
         loadById={loadById}
+        loading={loading}
       />
     </div>
   );
@@ -120,12 +121,14 @@ function ActionsBar({
   num,
   setNum,
   loadById,
+  loading,
 }: {
   title: string;
   alt: string;
   num: number;
   setNum: (num: number) => void;
   loadById: (id: number) => void;
+  loading: boolean;
 }) {
   return (
     <div className="flex gap-2 p-3 md:w-fit w-full border-t md:border md:rounded-md fixed bottom-0 md:bottom-3 bg-background">
@@ -135,6 +138,7 @@ function ActionsBar({
         <Search />
       </Button>
       <Button
+        disabled={num === 1 || loading}
         size="icon"
         variant="ghost"
         onClick={() => {
@@ -146,6 +150,7 @@ function ActionsBar({
         <ChevronLeft />
       </Button>
       <Button
+        disabled={loading}
         size="icon"
         variant="ghost"
         onClick={() => {
