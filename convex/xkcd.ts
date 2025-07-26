@@ -119,3 +119,56 @@ export const getById = action({
     id: v.number(),
   },
 });
+
+export const getLatest = action({
+  handler: async (ctx, args) => {
+    const data = await fetch(`https://xkcd.com/info.0.json`);
+    const json = (await data.json()) as {
+      month: string;
+      num: number;
+      link: string;
+      year: string;
+      news: string;
+      safe_title: string;
+      transcript: string;
+      alt: string;
+      img: string;
+      title: string;
+      day: string;
+    };
+
+    const cachedComic: {
+      month: string;
+      num: number;
+      link: string;
+      year: string;
+      news: string;
+      safe_title: string;
+      transcript: string;
+      alt: string;
+      img: string;
+      title: string;
+      day: string;
+    }[] = await ctx.runQuery(internal.xkcd.getCachedById, {
+      id: json.num,
+    });
+
+    if (cachedComic.length == 0) {
+      await ctx.runMutation(internal.xkcd.cacheComic, {
+        month: json.month,
+        num: json.num,
+        link: json.link,
+        year: json.year,
+        news: json.news,
+        safe_title: json.safe_title,
+        transcript: json.transcript,
+        alt: json.alt,
+        img: json.img,
+        title: json.title,
+        day: json.day,
+      });
+    }
+
+    return json;
+  },
+});
