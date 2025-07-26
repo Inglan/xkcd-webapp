@@ -44,11 +44,12 @@ export default function Home() {
   const getById = useAction(api.xkcd.getById);
 
   function loadById(id: number) {
+    setNum(id);
+
     getById({ id }).then((data) => {
       setTitle(data.title);
       setImg(data.img);
       setAlt(data.alt);
-      setNum(data.num);
     });
   }
 
@@ -62,7 +63,7 @@ export default function Home() {
 
       <div className="flex w-full h-full justify-center items-center">
         <div className="flex flex-col max-w-[95%] max-h-[95%]">
-          <img src={img} alt={alt} />
+          <img key={num} src={img} alt={alt} />
         </div>
       </div>
       <ActionsBar
