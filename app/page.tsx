@@ -27,8 +27,10 @@ import {
   Download,
   EllipsisVertical,
   LoaderCircle,
+  Moon,
   Search,
   Share,
+  Sun,
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -37,6 +39,7 @@ import { useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import clsx from "clsx";
 import { toast } from "sonner";
+import { useTheme } from "next-themes";
 
 export default function Home() {
   const [img, setImg] = useState("");
@@ -47,6 +50,7 @@ export default function Home() {
 
   const getById = useAction(api.xkcd.getById);
   const getLatest = useAction(api.xkcd.getLatest);
+  const { theme, setTheme } = useTheme();
 
   function loadById(id: number) {
     let previousNum = num;
@@ -101,6 +105,17 @@ export default function Home() {
             </DrawerHeader>
           </DrawerContent>
         </Drawer>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => {
+            setTheme(theme == "dark" ? "light" : "dark");
+          }}
+        >
+          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
       </div>
 
       <div className="flex w-full h-full justify-center items-center">
