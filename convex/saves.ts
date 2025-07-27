@@ -1,6 +1,7 @@
 import { getAuthUserId } from "@convex-dev/auth/server";
-import { query } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { Doc } from "./_generated/dataModel";
+import { v } from "convex/values";
 
 export const get = query({
   handler: async (ctx, args) => {
@@ -24,5 +25,31 @@ export const get = query({
     }
 
     return saves;
+  },
+});
+
+export const toggle = mutation({
+  args: {
+    num: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    const save = await ctx.db
+      .query("saves")
+      .withIndex("by_user_num", (q) => q.eq("user", userId).eq("num", args.num))
+      .first();
+
+    if (save) {
+      await ctx.db.delete(save._id);
+    } else {
+      await ctx.db.insert("saves", {
+        user: userId,
+        num: args.num,
+      });
+    }
   },
 });
