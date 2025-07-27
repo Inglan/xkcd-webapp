@@ -53,3 +53,22 @@ export const toggle = mutation({
     }
   },
 });
+
+export const isSaved = query({
+  args: {
+    num: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    const save = await ctx.db
+      .query("saves")
+      .withIndex("by_user_num", (q) => q.eq("user", userId).eq("num", args.num))
+      .first();
+
+    return !!save;
+  },
+});
