@@ -245,6 +245,7 @@ function ActionsBar({
 }) {
   const saveMutation = useMutation(api.saves.toggle);
   const isSaved = useQuery(api.saves.isSaved, { num });
+  const [saving, setSaving] = useState(false);
   return (
     <div className="flex gap-2 p-3 md:w-fit w-full border-t md:border md:rounded-md fixed bottom-0 md:bottom-3 bg-background">
       <Badge>#{num}</Badge>
@@ -288,14 +289,17 @@ function ActionsBar({
           size="icon"
           variant="ghost"
           onClick={() => {
-            toast.promise(saveMutation({ num: num }), {
-              loading: isSaved ? "Removing..." : "Saving...",
-              success: isSaved ? "Removed" : "Saved!",
-              error: isSaved ? "Failed to remove" : "Failed to save",
-            });
+            if (!saving) {
+              setSaving(true);
+              saveMutation({ num: num }).then(() => setSaving(false));
+            }
           }}
         >
-          <Bookmark className={clsx(isSaved && "text-red-500")} />
+          {saving ? (
+            <LoaderCircle className="w-4 h-4 animate-spin" />
+          ) : (
+            <Bookmark className={clsx(isSaved && "text-red-500")} />
+          )}
           <span className="sr-only">Save</span>
         </Button>
       </Authenticated>
