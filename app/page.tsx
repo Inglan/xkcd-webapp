@@ -35,7 +35,7 @@ import {
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
-import { useAction } from "convex/react";
+import { Authenticated, Unauthenticated, useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import clsx from "clsx";
 import { toast } from "sonner";
@@ -116,7 +116,25 @@ export default function Home() {
           <DrawerContent>
             <DrawerHeader>
               <DrawerTitle>Account</DrawerTitle>
+              <Unauthenticated>
+                <DrawerDescription>Signed out</DrawerDescription>
+              </Unauthenticated>
+              <Authenticated>
+                <DrawerDescription>Signed in</DrawerDescription>
+              </Authenticated>
             </DrawerHeader>
+            <Unauthenticated>
+              <div className="p-4 flex flex-col gap-3">
+                <Button>Google</Button>
+                <Button>Github</Button>
+              </div>
+            </Unauthenticated>
+            <DrawerFooter>
+              <Authenticated>
+                <Button variant="outline">Log out</Button>
+                <Button variant="destructive">Delete account</Button>
+              </Authenticated>
+            </DrawerFooter>
           </DrawerContent>
         </Drawer>
         <Button
