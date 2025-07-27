@@ -106,14 +106,16 @@ export default function Home() {
       <div className="flex flex-row container m-auto gap-3 justify-center items-center">
         <Link href="/">xkcd-webapp</Link>
         <div className="grow"></div>
-        <Drawer direction="right">
-          <DrawerTrigger>Saved</DrawerTrigger>
-          <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>Saved</DrawerTitle>
-            </DrawerHeader>
-          </DrawerContent>
-        </Drawer>
+        <Authenticated>
+          <Drawer direction="right">
+            <DrawerTrigger>Saved</DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>Saved</DrawerTitle>
+              </DrawerHeader>
+            </DrawerContent>
+          </Drawer>
+        </Authenticated>
         <Drawer direction="right">
           <DrawerTrigger>Account</DrawerTrigger>
           <DrawerContent>
