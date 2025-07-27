@@ -132,8 +132,8 @@ export default function Home() {
                 <Button
                   onClick={() => {
                     toast.promise(signIn("github"), {
-                      loading: "Signing in...",
-                      success: "Signed in",
+                      loading: "Processing",
+                      success: "Redirecting to Github",
                       error: "Something went wrong",
                     });
                   }}
