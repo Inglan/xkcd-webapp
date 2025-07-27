@@ -99,7 +99,7 @@ export default function Home() {
     loadById(num - 1);
   });
 
-  const { signIn } = useAuthActions();
+  const { signIn, signOut } = useAuthActions();
 
   return (
     <div className="h-screen w-screen flex flex-col items-center p-3">
@@ -140,7 +140,9 @@ export default function Home() {
             </Unauthenticated>
             <DrawerFooter>
               <Authenticated>
-                <Button variant="outline">Log out</Button>
+                <Button variant="outline" onClick={() => void signOut()}>
+                  Sign out
+                </Button>
                 <Button variant="destructive">Delete account</Button>
               </Authenticated>
             </DrawerFooter>
