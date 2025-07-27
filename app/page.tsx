@@ -11,11 +11,13 @@ import {
 } from "@/components/ui/dialog";
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
+  DrawerTrigger,
 } from "@/components/ui/drawer";
 import {
   Bookmark,
@@ -83,7 +85,14 @@ export default function Home() {
       <div className="flex flex-row container m-auto gap-3">
         <Link href="/">xkcd-webapp</Link>
         <div className="grow"></div>
-        <Link href="/saved">Saved</Link>
+        <Drawer direction="right">
+          <DrawerTrigger>Saved</DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Saved</DrawerTitle>
+            </DrawerHeader>
+          </DrawerContent>
+        </Drawer>
       </div>
 
       <div className="flex w-full h-full justify-center items-center">
