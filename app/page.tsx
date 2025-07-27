@@ -61,6 +61,17 @@ import {
 } from "@/components/ui/card";
 import { AnimatePresence, motion } from "motion/react";
 import SavedCard from "@/components/saved-card";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function Home() {
   const [img, setImg] = useState("");
@@ -223,27 +234,48 @@ export default function Home() {
                     Sign out
                   </Button>
                 )}
-                <Button
-                  variant="destructive"
-                  onClick={() => {
-                    toast.promise(
-                      new Promise<void>((resolve) => {
-                        deleteAccountMutation({}).then(() => {
-                          signOut().then(() => {
-                            resolve();
-                          });
-                        });
-                      }),
-                      {
-                        loading: "Deleting account...",
-                        success: "Account deleted",
-                        error: "Something went wrong",
-                      },
-                    );
-                  }}
-                >
-                  Delete account
-                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger
+                    className={buttonVariants({ variant: "destructive" })}
+                  >
+                    Delete account
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Delete account</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Are you sure you want to delete your account? This
+                        action cannot be undone.
+                        <br />
+                        Yes, as soon as you press continue <em>ALL</em> your
+                        data will be erased forever. I don't retain any of it.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => {
+                          toast.promise(
+                            new Promise<void>((resolve) => {
+                              deleteAccountMutation({}).then(() => {
+                                signOut().then(() => {
+                                  resolve();
+                                });
+                              });
+                            }),
+                            {
+                              loading: "Deleting account...",
+                              success: "Account deleted",
+                              error: "Something went wrong",
+                            },
+                          );
+                        }}
+                      >
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </Authenticated>
             </DrawerFooter>
           </DrawerContent>
