@@ -240,7 +240,7 @@ export default function Home() {
                   >
                     Delete account
                   </AlertDialogTrigger>
-                  <AlertDialogContent>
+                  <AlertDialogContent className="border-red-400 bg-red-100 dark:bg-red-950">
                     <AlertDialogHeader>
                       <AlertDialogTitle>Delete account</AlertDialogTitle>
                       <AlertDialogDescription>
@@ -254,6 +254,7 @@ export default function Home() {
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
                       <AlertDialogAction
+                        className={buttonVariants({ variant: "destructive" })}
                         onClick={() => {
                           toast.promise(
                             new Promise<void>((resolve) => {
