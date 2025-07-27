@@ -106,7 +106,7 @@ export default function Home() {
           </DrawerContent>
         </Drawer>
         <Button
-          variant="outline"
+          variant="ghost"
           size="icon"
           onClick={() => {
             setTheme(theme == "dark" ? "light" : "dark");
