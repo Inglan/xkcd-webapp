@@ -53,13 +53,13 @@ export default function SavedCard({
               saveMutation({ num: comic.num });
             }}
             variant="ghost"
+            size="icon"
           >
             {deleting ? (
               <LoaderCircle className="animate-spin" />
             ) : (
               <BookmarkMinus />
             )}
-            Remove
           </Button>
         </CardFooter>
       </Card>
