@@ -66,7 +66,6 @@ export default function Home() {
         setLoading(false);
         setNum(previousNum);
         toast.error("Something went wrong");
-        console.error(error);
       });
   }
 
