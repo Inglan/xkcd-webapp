@@ -149,7 +149,7 @@ export default function Home() {
               <DrawerHeader>
                 <DrawerTitle>Saved</DrawerTitle>
               </DrawerHeader>
-              <div className="p-4 flex flex-col gap-3 overflow-y-auto">
+              <div className="p-4 flex flex-col gap-3 overflow-y-auto grow">
                 <AnimatePresence>
                   {saves &&
                     saves.map((save) => (
