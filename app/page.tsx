@@ -40,6 +40,7 @@ import { api } from "@/convex/_generated/api";
 import clsx from "clsx";
 import { toast } from "sonner";
 import { useTheme } from "next-themes";
+import { useHotkeys } from "react-hotkeys-hook";
 
 export default function Home() {
   const [img, setImg] = useState("");
@@ -83,6 +84,19 @@ export default function Home() {
       setAlt(data.alt);
     });
   }, []);
+
+  useHotkeys("ArrowRight", () => {
+    loadById(num + 1);
+  });
+  useHotkeys("ArrowLeft", () => {
+    loadById(num - 1);
+  });
+  useHotkeys("l", () => {
+    loadById(num + 1);
+  });
+  useHotkeys("h", () => {
+    loadById(num - 1);
+  });
 
   return (
     <div className="h-screen w-screen flex flex-col items-center p-3">
