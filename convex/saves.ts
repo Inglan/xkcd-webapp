@@ -35,7 +35,7 @@ export const toggle = mutation({
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
     if (!userId) {
-      throw new Error("User not authenticated");
+      return;
     }
 
     const save = await ctx.db
@@ -61,7 +61,7 @@ export const isSaved = query({
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
     if (!userId) {
-      throw new Error("User not authenticated");
+      return false;
     }
 
     const save = await ctx.db
