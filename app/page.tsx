@@ -40,6 +40,7 @@ import {
   AuthLoading,
   Unauthenticated,
   useAction,
+  useMutation,
 } from "convex/react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { api } from "@/convex/_generated/api";
@@ -241,6 +242,7 @@ function ActionsBar({
   loadById: (id: number) => void;
   loading: boolean;
 }) {
+  const saveMutation = useMutation(api.saves.toggle);
   return (
     <div className="flex gap-2 p-3 md:w-fit w-full border-t md:border md:rounded-md fixed bottom-0 md:bottom-3 bg-background">
       <Badge>#{num}</Badge>
@@ -278,7 +280,14 @@ function ActionsBar({
         <Dice5 />
         <span className="sr-only">Random</span>
       </Button>
-      <Button disabled={loading} size="icon" variant="ghost">
+      <Button
+        disabled={loading}
+        size="icon"
+        variant="ghost"
+        onClick={() => {
+          saveMutation({ num: num });
+        }}
+      >
         <Bookmark />
         <span className="sr-only">Save</span>
       </Button>
