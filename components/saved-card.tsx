@@ -13,6 +13,7 @@ import { Doc } from "@/convex/_generated/dataModel";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useState } from "react";
+import { BookmarkMinus, LoaderCircle } from "lucide-react";
 
 export default function SavedCard({
   comic,
@@ -53,6 +54,11 @@ export default function SavedCard({
             }}
             variant="ghost"
           >
+            {deleting ? (
+              <LoaderCircle className="animate-spin" />
+            ) : (
+              <BookmarkMinus />
+            )}
             Remove
           </Button>
         </CardFooter>
