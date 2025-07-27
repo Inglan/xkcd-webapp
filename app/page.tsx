@@ -209,18 +209,20 @@ export default function Home() {
             </Unauthenticated>
             <DrawerFooter>
               <Authenticated>
-                <Button
-                  variant="outline"
-                  onClick={() =>
-                    toast.promise(signOut(), {
-                      loading: "Signing out...",
-                      success: "Signed out",
-                      error: "Something went wrong",
-                    })
-                  }
-                >
-                  Sign out
-                </Button>
+                {!userInfo?.anonymous && (
+                  <Button
+                    variant="outline"
+                    onClick={() =>
+                      toast.promise(signOut(), {
+                        loading: "Signing out...",
+                        success: "Signed out",
+                        error: "Something went wrong",
+                      })
+                    }
+                  >
+                    Sign out
+                  </Button>
+                )}
                 <Button variant="destructive">Delete account</Button>
               </Authenticated>
             </DrawerFooter>
