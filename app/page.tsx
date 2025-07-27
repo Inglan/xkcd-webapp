@@ -282,21 +282,23 @@ function ActionsBar({
         <Dice5 />
         <span className="sr-only">Random</span>
       </Button>
-      <Button
-        disabled={loading}
-        size="icon"
-        variant="ghost"
-        onClick={() => {
-          toast.promise(saveMutation({ num: num }), {
-            loading: isSaved ? "Removing..." : "Saving...",
-            success: isSaved ? "Removed" : "Saved!",
-            error: isSaved ? "Failed to remove" : "Failed to save",
-          });
-        }}
-      >
-        <Bookmark className={clsx(isSaved && "text-red-500")} />
-        <span className="sr-only">Save</span>
-      </Button>
+      <Authenticated>
+        <Button
+          disabled={loading}
+          size="icon"
+          variant="ghost"
+          onClick={() => {
+            toast.promise(saveMutation({ num: num }), {
+              loading: isSaved ? "Removing..." : "Saving...",
+              success: isSaved ? "Removed" : "Saved!",
+              error: isSaved ? "Failed to remove" : "Failed to save",
+            });
+          }}
+        >
+          <Bookmark className={clsx(isSaved && "text-red-500")} />
+          <span className="sr-only">Save</span>
+        </Button>
+      </Authenticated>
       <MoreButton title={title} description={alt} />
     </div>
   );
