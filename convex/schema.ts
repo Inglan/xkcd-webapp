@@ -23,7 +23,9 @@ const schema = defineSchema({
   saves: defineTable({
     num: v.number(),
     user: v.id("users"),
-  }).index("by_user", ["user"]),
+  })
+    .index("by_user", ["user"])
+    .index("by_user_num", ["user", "num"]),
   ...authTables,
 });
 
