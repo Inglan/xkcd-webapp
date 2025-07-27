@@ -50,6 +50,15 @@ import { toast } from "sonner";
 import { useTheme } from "next-themes";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function Home() {
   const [img, setImg] = useState("");
@@ -61,6 +70,8 @@ export default function Home() {
   const getById = useAction(api.xkcd.getById);
   const getLatest = useAction(api.xkcd.getLatest);
   const { theme, setTheme } = useTheme();
+
+  const saves = useQuery(api.saves.get, {});
 
   function loadById(id: number) {
     let previousNum = num;
@@ -135,6 +146,26 @@ export default function Home() {
               <DrawerHeader>
                 <DrawerTitle>Saved</DrawerTitle>
               </DrawerHeader>
+              <div className="p-4 flex flex-col gap-3">
+                {saves &&
+                  saves.map((save) => (
+                    <Card key={save.num} className="pt-0 overflow-hidden">
+                      <img
+                        className="h-52 w-full object-cover"
+                        src={save.img}
+                        alt=""
+                      />
+                      <CardHeader>
+                        <CardTitle>{save.title}</CardTitle>
+                        <CardDescription>{save.alt}</CardDescription>
+                      </CardHeader>
+                      <CardFooter className="gap-3">
+                        <Button className="grow">Open</Button>
+                        <Button>Remove</Button>
+                      </CardFooter>
+                    </Card>
+                  ))}
+              </div>
             </DrawerContent>
           </Drawer>
         </Authenticated>
