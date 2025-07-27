@@ -72,6 +72,7 @@ export default function Home() {
   const { theme, setTheme } = useTheme();
 
   const saves = useQuery(api.saves.get, {});
+  const saveMutation = useMutation(api.saves.toggle);
 
   function loadById(id: number) {
     let previousNum = num;
@@ -160,8 +161,22 @@ export default function Home() {
                         <CardDescription>{save.alt}</CardDescription>
                       </CardHeader>
                       <CardFooter className="gap-3">
-                        <Button className="grow">Open</Button>
-                        <Button>Remove</Button>
+                        <Button
+                          className="grow"
+                          onClick={() => {
+                            loadById(save.num);
+                          }}
+                        >
+                          Open
+                        </Button>
+                        <Button
+                          onClick={() => {
+                            saveMutation({ num: save.num });
+                          }}
+                          variant="ghost"
+                        >
+                          Remove
+                        </Button>
                       </CardFooter>
                     </Card>
                   ))}
