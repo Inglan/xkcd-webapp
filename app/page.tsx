@@ -35,13 +35,19 @@ import {
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
-import { Authenticated, Unauthenticated, useAction } from "convex/react";
+import {
+  Authenticated,
+  AuthLoading,
+  Unauthenticated,
+  useAction,
+} from "convex/react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { api } from "@/convex/_generated/api";
 import clsx from "clsx";
 import { toast } from "sonner";
 import { useTheme } from "next-themes";
 import { useHotkeys } from "react-hotkeys-hook";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Home() {
   const [img, setImg] = useState("");
@@ -106,6 +112,9 @@ export default function Home() {
       <div className="flex flex-row container m-auto gap-3 justify-center items-center">
         <Link href="/">xkcd-webapp</Link>
         <div className="grow"></div>
+        <AuthLoading>
+          <Skeleton className="h-[20px] w-[50px] rounded-full" />
+        </AuthLoading>
         <Authenticated>
           <Drawer direction="right">
             <DrawerTrigger>Saved</DrawerTrigger>
