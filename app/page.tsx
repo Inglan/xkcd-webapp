@@ -109,7 +109,7 @@ export default function Home() {
 
           {img && (
             <img
-              className={clsx(loading && "hidden")}
+              className={clsx(loading && "hidden", "dark:invert")}
               onLoad={() => {
                 setLoading(false);
               }}
