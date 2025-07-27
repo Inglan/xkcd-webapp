@@ -59,6 +59,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { AnimatePresence, motion } from "motion/react";
 
 export default function Home() {
   const [img, setImg] = useState("");
@@ -148,38 +149,47 @@ export default function Home() {
                 <DrawerTitle>Saved</DrawerTitle>
               </DrawerHeader>
               <div className="p-4 flex flex-col gap-3">
-                {saves &&
-                  saves.map((save) => (
-                    <Card key={save.num} className="pt-0 overflow-hidden">
-                      <img
-                        className="h-52 w-full object-cover"
-                        src={save.img}
-                        alt=""
-                      />
-                      <CardHeader>
-                        <CardTitle>{save.title}</CardTitle>
-                        <CardDescription>{save.alt}</CardDescription>
-                      </CardHeader>
-                      <CardFooter className="gap-3">
-                        <Button
-                          className="grow"
-                          onClick={() => {
-                            loadById(save.num);
-                          }}
-                        >
-                          Open
-                        </Button>
-                        <Button
-                          onClick={() => {
-                            saveMutation({ num: save.num });
-                          }}
-                          variant="ghost"
-                        >
-                          Remove
-                        </Button>
-                      </CardFooter>
-                    </Card>
-                  ))}
+                <AnimatePresence mode="popLayout">
+                  {saves &&
+                    saves.map((save) => (
+                      <motion.div
+                        layout
+                        key={save.num}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                      >
+                        <Card className="pt-0 overflow-hidden">
+                          <img
+                            className="h-52 w-full object-cover"
+                            src={save.img}
+                            alt=""
+                          />
+                          <CardHeader>
+                            <CardTitle>{save.title}</CardTitle>
+                            <CardDescription>{save.alt}</CardDescription>
+                          </CardHeader>
+                          <CardFooter className="gap-3">
+                            <Button
+                              className="grow"
+                              onClick={() => {
+                                loadById(save.num);
+                              }}
+                            >
+                              Open
+                            </Button>
+                            <Button
+                              onClick={() => {
+                                saveMutation({ num: save.num });
+                              }}
+                              variant="ghost"
+                            >
+                              Remove
+                            </Button>
+                          </CardFooter>
+                        </Card>
+                      </motion.div>
+                    ))}
+                </AnimatePresence>
               </div>
             </DrawerContent>
           </Drawer>
