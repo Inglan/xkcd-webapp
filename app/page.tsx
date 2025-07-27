@@ -74,6 +74,7 @@ export default function Home() {
   const { theme, setTheme } = useTheme();
 
   const saves = useQuery(api.saves.get, {});
+  const userInfo = useQuery(api.account.info, {});
   const saveMutation = useMutation(api.saves.toggle);
 
   function loadById(id: number) {
@@ -175,7 +176,7 @@ export default function Home() {
                 <DrawerDescription>Signed out</DrawerDescription>
               </Unauthenticated>
               <Authenticated>
-                <DrawerDescription>Signed in</DrawerDescription>
+                <DrawerDescription>{userInfo?.name}</DrawerDescription>
               </Authenticated>
             </DrawerHeader>
             <Unauthenticated>
