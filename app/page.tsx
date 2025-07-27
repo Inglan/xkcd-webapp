@@ -93,6 +93,14 @@ export default function Home() {
             </DrawerHeader>
           </DrawerContent>
         </Drawer>
+        <Drawer direction="right">
+          <DrawerTrigger>Account</DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Account</DrawerTitle>
+            </DrawerHeader>
+          </DrawerContent>
+        </Drawer>
       </div>
 
       <div className="flex w-full h-full justify-center items-center">
