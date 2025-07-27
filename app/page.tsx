@@ -259,6 +259,7 @@ function ActionsBar({
         }}
       >
         <ChevronLeft />
+        <span className="sr-only">Previous</span>
       </Button>
       <Button
         disabled={loading}
@@ -271,12 +272,15 @@ function ActionsBar({
         }}
       >
         <ChevronRight />
+        <span className="sr-only">Next</span>
       </Button>
       <Button disabled={loading} size="icon" variant="ghost">
         <Dice5 />
+        <span className="sr-only">Random</span>
       </Button>
       <Button disabled={loading} size="icon" variant="ghost">
         <Bookmark />
+        <span className="sr-only">Save</span>
       </Button>
       <MoreButton title={title} description={alt} />
     </div>
