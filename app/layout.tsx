@@ -37,7 +37,7 @@ export default function RootLayout({
               {children}
               <Toaster
                 richColors
-                offset={10}
+                offset={12}
                 mobileOffset={{ bottom: "72px" }}
               />
             </ThemeProvider>
