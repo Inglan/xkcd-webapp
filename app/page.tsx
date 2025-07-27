@@ -131,7 +131,11 @@ export default function Home() {
                 <Button disabled>Google</Button>
                 <Button
                   onClick={() => {
-                    void signIn("github");
+                    toast.promise(signIn("github"), {
+                      loading: "Signing in...",
+                      success: "Signed in",
+                      error: "Something went wrong",
+                    });
                   }}
                 >
                   Github
@@ -144,7 +148,7 @@ export default function Home() {
                   variant="outline"
                   onClick={() =>
                     toast.promise(signOut(), {
-                      loading: "Signing Out...",
+                      loading: "Signing out...",
                       success: "Signed out",
                       error: "Something went wrong",
                     })
