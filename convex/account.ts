@@ -6,7 +6,10 @@ export const info = query({
     const userId = await getAuthUserId(ctx);
 
     if (!userId) {
-      throw new Error("User not authenticated");
+      return {
+        name: "",
+        email: "",
+      };
     }
 
     const userObj = await ctx.db.get(userId);
