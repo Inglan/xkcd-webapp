@@ -36,6 +36,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { Authenticated, Unauthenticated, useAction } from "convex/react";
+import { useAuthActions } from "@convex-dev/auth/react";
 import { api } from "@/convex/_generated/api";
 import clsx from "clsx";
 import { toast } from "sonner";
@@ -98,6 +99,8 @@ export default function Home() {
     loadById(num - 1);
   });
 
+  const { signIn } = useAuthActions();
+
   return (
     <div className="h-screen w-screen flex flex-col items-center p-3">
       <div className="flex flex-row container m-auto gap-3 justify-center items-center">
@@ -126,7 +129,13 @@ export default function Home() {
             <Unauthenticated>
               <div className="p-4 flex flex-col gap-3">
                 <Button disabled>Google</Button>
-                <Button>Github</Button>
+                <Button
+                  onClick={() => {
+                    void signIn("github");
+                  }}
+                >
+                  Github
+                </Button>
               </div>
             </Unauthenticated>
             <DrawerFooter>
