@@ -192,6 +192,18 @@ export default function Home() {
                 >
                   Github
                 </Button>
+                <Button
+                  onClick={() => {
+                    toast.promise(signIn("anonymous"), {
+                      loading: "Processing",
+                      success: "Signed in as anonymous",
+                      error: "Something went wrong",
+                    });
+                  }}
+                  variant="ghost"
+                >
+                  Anonymous
+                </Button>
               </div>
             </Unauthenticated>
             <DrawerFooter>
