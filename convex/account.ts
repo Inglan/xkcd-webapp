@@ -18,11 +18,13 @@ export const info = query({
       return {
         name: "Anonymous",
         email: "",
+        anonymous: true,
       };
     } else {
       return {
         name: userObj?.name,
         email: userObj?.email,
+        anonymous: false,
       };
     }
   },
