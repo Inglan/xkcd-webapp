@@ -287,7 +287,11 @@ function ActionsBar({
         size="icon"
         variant="ghost"
         onClick={() => {
-          saveMutation({ num: num });
+          toast.promise(saveMutation({ num: num }), {
+            loading: isSaved ? "Removing..." : "Saving...",
+            success: isSaved ? "Removed" : "Saved!",
+            error: isSaved ? "Failed to remove" : "Failed to save",
+          });
         }}
       >
         <Bookmark className={clsx(isSaved && "text-red-500")} />
