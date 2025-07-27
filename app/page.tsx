@@ -1,7 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -109,15 +109,26 @@ export default function Home() {
 
   return (
     <div className="h-screen w-screen flex flex-col items-center p-3">
-      <div className="flex flex-row container m-auto gap-3 justify-center items-center">
-        <Link href="/">xkcd-webapp</Link>
+      <div className="flex flex-row container m-auto gap-1 justify-center items-center">
+        <Drawer direction="left">
+          <DrawerTrigger className={buttonVariants({ variant: "default" })}>
+            xkcd-webapp
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>About this webapp</DrawerTitle>
+            </DrawerHeader>
+          </DrawerContent>
+        </Drawer>
         <div className="grow"></div>
         <AuthLoading>
           <Skeleton className="h-[20px] w-[50px] rounded-full" />
         </AuthLoading>
         <Authenticated>
           <Drawer direction="right">
-            <DrawerTrigger>Saved</DrawerTrigger>
+            <DrawerTrigger className={buttonVariants({ variant: "ghost" })}>
+              Saved
+            </DrawerTrigger>
             <DrawerContent>
               <DrawerHeader>
                 <DrawerTitle>Saved</DrawerTitle>
@@ -126,7 +137,9 @@ export default function Home() {
           </Drawer>
         </Authenticated>
         <Drawer direction="right">
-          <DrawerTrigger>Account</DrawerTrigger>
+          <DrawerTrigger className={buttonVariants({ variant: "ghost" })}>
+            Account
+          </DrawerTrigger>
           <DrawerContent>
             <DrawerHeader>
               <DrawerTitle>Account</DrawerTitle>
