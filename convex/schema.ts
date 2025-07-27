@@ -20,6 +20,10 @@ const schema = defineSchema({
     title: v.string(),
     day: v.string(),
   }).index("by_num", ["num"]),
+  saves: defineTable({
+    num: v.number(),
+    user: v.id("users"),
+  }),
   ...authTables,
 });
 
