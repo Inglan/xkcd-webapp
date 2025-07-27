@@ -75,7 +75,7 @@ export default function Home() {
 
   const saves = useQuery(api.saves.get, {});
   const userInfo = useQuery(api.account.info, {});
-  const saveMutation = useMutation(api.saves.toggle);
+  const deleteAccountMutation = useMutation(api.account.deleteAccount);
 
   function loadById(id: number) {
     let previousNum = num;
@@ -223,7 +223,27 @@ export default function Home() {
                     Sign out
                   </Button>
                 )}
-                <Button variant="destructive">Delete account</Button>
+                <Button
+                  variant="destructive"
+                  onClick={() => {
+                    toast.promise(
+                      new Promise<void>((resolve) => {
+                        deleteAccountMutation({}).then(() => {
+                          signOut().then(() => {
+                            resolve();
+                          });
+                        });
+                      }),
+                      {
+                        loading: "Deleting account...",
+                        success: "Account deleted",
+                        error: "Something went wrong",
+                      },
+                    );
+                  }}
+                >
+                  Delete account
+                </Button>
               </Authenticated>
             </DrawerFooter>
           </DrawerContent>
