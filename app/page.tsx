@@ -125,7 +125,7 @@ export default function Home() {
             </DrawerHeader>
             <Unauthenticated>
               <div className="p-4 flex flex-col gap-3">
-                <Button>Google</Button>
+                <Button disabled>Google</Button>
                 <Button>Github</Button>
               </div>
             </Unauthenticated>
