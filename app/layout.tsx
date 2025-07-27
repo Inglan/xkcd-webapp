@@ -37,8 +37,9 @@ export default function RootLayout({
               {children}
               <Toaster
                 richColors
-                offset={12}
-                mobileOffset={{ bottom: "72px" }}
+                position="top-center"
+                offset={{ top: "64px" }}
+                mobileOffset={{ top: "64px" }}
               />
             </ThemeProvider>
           </ConvexClientProvider>
