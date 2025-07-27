@@ -41,6 +41,7 @@ import {
   Unauthenticated,
   useAction,
   useMutation,
+  useQuery,
 } from "convex/react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { api } from "@/convex/_generated/api";
@@ -243,6 +244,7 @@ function ActionsBar({
   loading: boolean;
 }) {
   const saveMutation = useMutation(api.saves.toggle);
+  const isSaved = useQuery(api.saves.isSaved, { num });
   return (
     <div className="flex gap-2 p-3 md:w-fit w-full border-t md:border md:rounded-md fixed bottom-0 md:bottom-3 bg-background">
       <Badge>#{num}</Badge>
@@ -288,7 +290,7 @@ function ActionsBar({
           saveMutation({ num: num });
         }}
       >
-        <Bookmark />
+        <Bookmark className={clsx(isSaved && "text-red-500")} />
         <span className="sr-only">Save</span>
       </Button>
       <MoreButton title={title} description={alt} />
