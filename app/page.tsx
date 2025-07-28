@@ -368,7 +368,7 @@ function ActionsBar({
         >
           #{num} <ChevronUp />
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent align="start">
           <DropdownMenuLabel>Go to</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>Today</DropdownMenuItem>
