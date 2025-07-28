@@ -337,6 +337,7 @@ export default function Home() {
         setNum={setNum}
         loadById={loadById}
         loading={loading}
+        img={img}
       />
     </div>
   );
@@ -349,6 +350,7 @@ function ActionsBar({
   setNum,
   loadById,
   loading,
+  img,
 }: {
   title: string;
   alt: string;
@@ -356,6 +358,7 @@ function ActionsBar({
   setNum: (num: number) => void;
   loadById: (id: number) => void;
   loading: boolean;
+  img: string;
 }) {
   const saveMutation = useMutation(api.saves.toggle);
   const isSaved = useQuery(api.saves.isSaved, { num });
@@ -426,7 +429,7 @@ function ActionsBar({
           <span className="sr-only">Save</span>
         </Button>
       </Authenticated>
-      <MoreButton title={title} description={alt} />
+      <MoreButton title={title} description={alt} img={img} num={num} />
     </div>
   );
 }
@@ -434,9 +437,13 @@ function ActionsBar({
 function MoreButton({
   title = "More",
   description = "",
+  num = 0,
+  img = "",
 }: {
   title?: string;
   description?: string;
+  num?: number;
+  img?: string;
 }) {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -455,7 +462,27 @@ function MoreButton({
             </DialogHeader>
 
             <div className="grid grid-cols-2 gap-3">
-              <Button variant="ghost">
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  if (navigator.share) {
+                    toast.promise(
+                      navigator.share({
+                        title,
+                        text: description,
+                        url: "https://xkcd.com/" + num,
+                      }),
+                      {
+                        loading: "Sharing...",
+                        success: "Shared!",
+                        error: "Failed to share",
+                      },
+                    );
+                  } else {
+                    toast.error("Sharing is not supported on this device");
+                  }
+                }}
+              >
                 <Share />
                 Share
               </Button>
@@ -476,7 +503,27 @@ function MoreButton({
               </DrawerDescription>
             </DrawerHeader>
             <DrawerFooter className="grid grid-cols-2 gap-3">
-              <Button variant="ghost">
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  if (navigator.share) {
+                    toast.promise(
+                      navigator.share({
+                        title,
+                        text: description,
+                        url: "https://xkcd.com/" + num,
+                      }),
+                      {
+                        loading: "Sharing...",
+                        success: "Shared!",
+                        error: "Failed to share",
+                      },
+                    );
+                  } else {
+                    toast.error("Sharing is not supported on this device");
+                  }
+                }}
+              >
                 <Share />
                 Share
               </Button>
