@@ -171,6 +171,11 @@ export default function Home() {
                         key={save.num}
                       />
                     ))}
+                  {saves && saves.length === 0 && (
+                    <div className="text-center text-sm text-muted-foreground">
+                      No saved comics yet.
+                    </div>
+                  )}
                 </AnimatePresence>
               </div>
             </DrawerContent>
