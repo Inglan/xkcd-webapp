@@ -375,7 +375,7 @@ function ActionsBar({
           <DropdownMenuItem>Enter number</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <div className="grow"></div>
+      <div className="grow md:hidden"></div>
       <Button
         disabled={num === 1 || loading}
         size="icon"
