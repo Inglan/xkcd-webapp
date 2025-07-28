@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { LoaderCircle, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AuthLoading, useAction } from "convex/react";
@@ -42,7 +42,7 @@ export default function Home() {
           setLoading(false);
         }
       })
-      .catch((error) => {
+      .catch(() => {
         setLoading(false);
         setNum(previousNum);
         toast.error("Something went wrong");
@@ -70,8 +70,6 @@ export default function Home() {
   useHotkeys("h", () => {
     loadById(num - 1);
   });
-
-  const { signIn, signOut } = useAuthActions();
 
   return (
     <div className="h-screen w-screen flex flex-col items-center p-3">
