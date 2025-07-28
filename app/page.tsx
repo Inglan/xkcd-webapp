@@ -163,6 +163,17 @@ export default function Home() {
               </DrawerHeader>
               <div className="p-4 flex flex-col gap-3 overflow-y-auto grow">
                 <AnimatePresence>
+                  {saves?.length === 0 && (
+                    <motion.div
+                      className="text-center text-sm text-muted-foreground"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      layout
+                    >
+                      No saved comics yet.
+                    </motion.div>
+                  )}
                   {saves &&
                     saves.map((save) => (
                       <SavedCard
@@ -171,11 +182,6 @@ export default function Home() {
                         key={save.num}
                       />
                     ))}
-                  {saves && saves.length === 0 && (
-                    <div className="text-center text-sm text-muted-foreground">
-                      No saved comics yet.
-                    </div>
-                  )}
                 </AnimatePresence>
               </div>
             </DrawerContent>
