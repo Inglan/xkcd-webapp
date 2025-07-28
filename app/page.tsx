@@ -355,9 +355,6 @@ function ActionsBar({
     <div className="flex gap-2 p-3 md:w-fit w-full border-t md:border md:rounded-md fixed bottom-0 md:bottom-3 bg-background">
       <Badge>#{num}</Badge>
       <div className="grow"></div>
-      <Button disabled={loading} size="icon" variant="ghost">
-        <Search />
-      </Button>
       <Button
         disabled={num === 1 || loading}
         size="icon"
