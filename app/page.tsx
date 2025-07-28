@@ -1,6 +1,6 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
+import { Badge, badgeVariants } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,6 +20,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import {
+  ChevronUp,
   Bookmark,
   ChevronLeft,
   ChevronRight,
@@ -43,6 +44,14 @@ import {
   useMutation,
   useQuery,
 } from "convex/react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { api } from "@/convex/_generated/api";
 import clsx from "clsx";
@@ -353,7 +362,19 @@ function ActionsBar({
   const [saving, setSaving] = useState(false);
   return (
     <div className="flex gap-2 p-3 md:w-fit w-full border-t md:border md:rounded-md fixed bottom-0 md:bottom-3 bg-background">
-      <Badge>#{num}</Badge>
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          className={badgeVariants({ variant: "secondary" })}
+        >
+          #{num} <ChevronUp />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>Go to</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>Today</DropdownMenuItem>
+          <DropdownMenuItem>Enter number</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
       <div className="grow"></div>
       <Button
         disabled={num === 1 || loading}
