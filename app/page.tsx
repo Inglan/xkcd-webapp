@@ -76,8 +76,6 @@ export default function Home() {
   return (
     <div className="h-screen w-screen flex flex-col items-center p-3">
       <div className="flex flex-row container m-auto gap-1 justify-center items-center">
-        {/* About Drawer */}
-        {/* You may modularize this too if it grows */}
         xkcd-webapp
         <div className="grow"></div>
         <AuthLoading>
