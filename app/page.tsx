@@ -1,86 +1,19 @@
 "use client";
 
-import { Badge, badgeVariants } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
-import {
-  ChevronUp,
-  Bookmark,
-  ChevronLeft,
-  ChevronRight,
-  Dice5,
-  Download,
-  EllipsisVertical,
-  LoaderCircle,
-  Moon,
-  Search,
-  Share,
-  Sun,
-} from "lucide-react";
-import Link from "next/link";
+import { LoaderCircle, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useMediaQuery } from "usehooks-ts";
-import {
-  Authenticated,
-  AuthLoading,
-  Unauthenticated,
-  useAction,
-  useMutation,
-  useQuery,
-} from "convex/react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useAuthActions } from "@convex-dev/auth/react";
+import { AuthLoading, useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import clsx from "clsx";
 import { toast } from "sonner";
 import { useTheme } from "next-themes";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { AnimatePresence, motion } from "motion/react";
-import SavedCard from "@/components/saved-card";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import ActionsBar from "@/components/ActionsBar";
+import SavedDrawer from "@/components/SavedDrawer";
+import AccountDrawer from "@/components/AccountDrawer";
+import { useAuthActions } from "@convex-dev/auth/react";
+import clsx from "clsx";
 
 export default function Home() {
   const [img, setImg] = useState("");
@@ -92,10 +25,6 @@ export default function Home() {
   const getById = useAction(api.xkcd.getById);
   const getLatest = useAction(api.xkcd.getLatest);
   const { theme, setTheme } = useTheme();
-
-  const saves = useQuery(api.saves.get, {});
-  const userInfo = useQuery(api.account.info, {});
-  const deleteAccountMutation = useMutation(api.account.deleteAccount);
 
   function loadById(id: number) {
     let previousNum = num;
@@ -147,160 +76,15 @@ export default function Home() {
   return (
     <div className="h-screen w-screen flex flex-col items-center p-3">
       <div className="flex flex-row container m-auto gap-1 justify-center items-center">
-        <Drawer direction="left">
-          <DrawerTrigger className={buttonVariants({ variant: "default" })}>
-            xkcd-webapp
-          </DrawerTrigger>
-          <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>About this webapp</DrawerTitle>
-            </DrawerHeader>
-          </DrawerContent>
-        </Drawer>
+        {/* About Drawer */}
+        {/* You may modularize this too if it grows */}
+        xkcd-webapp
         <div className="grow"></div>
         <AuthLoading>
           <Skeleton className="h-[20px] w-[75px] rounded-full" />
         </AuthLoading>
-        <Authenticated>
-          <Drawer direction="right">
-            <DrawerTrigger className={buttonVariants({ variant: "ghost" })}>
-              Saved
-            </DrawerTrigger>
-            <DrawerContent>
-              <DrawerHeader>
-                <DrawerTitle>Saved</DrawerTitle>
-              </DrawerHeader>
-              <div className="p-4 flex flex-col gap-3 overflow-y-auto grow">
-                <AnimatePresence>
-                  {saves?.length === 0 && (
-                    <motion.div
-                      className="text-center text-sm text-muted-foreground"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      layout
-                    >
-                      No saved comics yet.
-                    </motion.div>
-                  )}
-                  {saves &&
-                    saves.map((save) => (
-                      <SavedCard
-                        loadByIdAction={loadById}
-                        comic={save}
-                        key={save.num}
-                      />
-                    ))}
-                </AnimatePresence>
-              </div>
-            </DrawerContent>
-          </Drawer>
-        </Authenticated>
-        <Drawer direction="right">
-          <DrawerTrigger className={buttonVariants({ variant: "ghost" })}>
-            Account
-          </DrawerTrigger>
-          <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>Account</DrawerTitle>
-              <Unauthenticated>
-                <DrawerDescription>Signed out</DrawerDescription>
-              </Unauthenticated>
-              <Authenticated>
-                <DrawerDescription>{userInfo?.name}</DrawerDescription>
-              </Authenticated>
-            </DrawerHeader>
-            <Unauthenticated>
-              <div className="p-4 flex flex-col gap-3">
-                <Button disabled>Google</Button>
-                <Button
-                  onClick={() => {
-                    toast.promise(signIn("github"), {
-                      loading: "Processing",
-                      success: "Redirecting to Github",
-                      error: "Something went wrong",
-                    });
-                  }}
-                >
-                  Github
-                </Button>
-                <Button
-                  onClick={() => {
-                    toast.promise(signIn("anonymous"), {
-                      loading: "Processing",
-                      success: "Signed in as anonymous",
-                      error: "Something went wrong",
-                    });
-                  }}
-                  variant="ghost"
-                >
-                  Anonymous
-                </Button>
-              </div>
-            </Unauthenticated>
-            <DrawerFooter>
-              <Authenticated>
-                {!userInfo?.anonymous && (
-                  <Button
-                    variant="outline"
-                    onClick={() =>
-                      toast.promise(signOut(), {
-                        loading: "Signing out...",
-                        success: "Signed out",
-                        error: "Something went wrong",
-                      })
-                    }
-                  >
-                    Sign out
-                  </Button>
-                )}
-                <AlertDialog>
-                  <AlertDialogTrigger
-                    className={buttonVariants({ variant: "destructive" })}
-                  >
-                    Delete account
-                  </AlertDialogTrigger>
-                  <AlertDialogContent className="border-red-400 bg-red-100 dark:bg-red-950">
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Delete account</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Are you sure you want to delete your account? This
-                        action cannot be undone.
-                        <br />
-                        Yes, as soon as you press continue <em>ALL</em> your
-                        data will be erased forever. I don't retain any of it.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction
-                        className={buttonVariants({ variant: "destructive" })}
-                        onClick={() => {
-                          toast.promise(
-                            new Promise<void>((resolve) => {
-                              deleteAccountMutation({}).then(() => {
-                                signOut().then(() => {
-                                  resolve();
-                                });
-                              });
-                            }),
-                            {
-                              loading: "Deleting account...",
-                              success: "Account deleted",
-                              error: "Something went wrong",
-                            },
-                          );
-                        }}
-                      >
-                        Continue
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </Authenticated>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
+        <SavedDrawer loadByIdAction={loadById} />
+        <AccountDrawer />
         <Button
           variant="ghost"
           size="icon"
@@ -334,207 +118,11 @@ export default function Home() {
         title={title}
         alt={alt}
         num={num}
-        setNum={setNum}
-        loadById={loadById}
+        setNumAction={setNum}
+        loadByIdAction={loadById}
         loading={loading}
         img={img}
       />
     </div>
-  );
-}
-
-function ActionsBar({
-  title,
-  alt,
-  num,
-  setNum,
-  loadById,
-  loading,
-  img,
-}: {
-  title: string;
-  alt: string;
-  num: number;
-  setNum: (num: number) => void;
-  loadById: (id: number) => void;
-  loading: boolean;
-  img: string;
-}) {
-  const saveMutation = useMutation(api.saves.toggle);
-  const isSaved = useQuery(api.saves.isSaved, { num });
-  const [saving, setSaving] = useState(false);
-  return (
-    <div className="flex gap-2 p-3 md:w-fit w-full border-t md:border md:rounded-md fixed bottom-0 md:bottom-3 bg-background">
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          className={badgeVariants({ variant: "secondary" })}
-        >
-          #{num} <ChevronUp />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="start">
-          <DropdownMenuLabel>Go to</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Today</DropdownMenuItem>
-          <DropdownMenuItem>Enter number</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <div className="grow md:hidden"></div>
-      <Button
-        disabled={num === 1 || loading}
-        size="icon"
-        variant="ghost"
-        onClick={() => {
-          if (num - 1 > 0) {
-            loadById(num - 1);
-          }
-        }}
-      >
-        <ChevronLeft />
-        <span className="sr-only">Previous</span>
-      </Button>
-      <Button
-        disabled={loading}
-        size="icon"
-        variant="ghost"
-        onClick={() => {
-          if (num + 1 > 0) {
-            loadById(num + 1);
-          }
-        }}
-      >
-        <ChevronRight />
-        <span className="sr-only">Next</span>
-      </Button>
-      <Button disabled={loading} size="icon" variant="ghost">
-        <Dice5 />
-        <span className="sr-only">Random</span>
-      </Button>
-      <Authenticated>
-        <Button
-          disabled={loading}
-          size="icon"
-          variant="ghost"
-          onClick={() => {
-            if (!saving) {
-              setSaving(true);
-              saveMutation({ num: num }).then(() => setSaving(false));
-            }
-          }}
-        >
-          {saving ? (
-            <LoaderCircle className="w-4 h-4 animate-spin" />
-          ) : (
-            <Bookmark className={clsx(isSaved && "text-red-500")} />
-          )}
-          <span className="sr-only">Save</span>
-        </Button>
-      </Authenticated>
-      <MoreButton title={title} description={alt} img={img} num={num} />
-    </div>
-  );
-}
-
-function MoreButton({
-  title = "More",
-  description = "",
-  num = 0,
-  img = "",
-}: {
-  title?: string;
-  description?: string;
-  num?: number;
-  img?: string;
-}) {
-  const [open, setOpen] = useState(false);
-  const isDesktop = useMediaQuery("(min-width: 768px)");
-  return (
-    <>
-      <Button size="icon" variant="ghost" onClick={() => setOpen(!open)}>
-        <EllipsisVertical />
-      </Button>
-
-      {isDesktop ? (
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>{title}</DialogTitle>
-              <DialogDescription>{description}</DialogDescription>
-            </DialogHeader>
-
-            <div className="grid grid-cols-2 gap-3">
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  if (navigator.share) {
-                    toast.promise(
-                      navigator.share({
-                        title,
-                        text: description,
-                        url: "https://xkcd.com/" + num,
-                      }),
-                      {
-                        loading: "Sharing...",
-                        success: "Shared!",
-                        error: "Failed to share",
-                      },
-                    );
-                  } else {
-                    toast.error("Sharing is not supported on this device");
-                  }
-                }}
-              >
-                <Share />
-                Share
-              </Button>
-              <Button variant="ghost">
-                <Download />
-                Download
-              </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
-      ) : (
-        <Drawer open={open} onOpenChange={setOpen}>
-          <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle className="text-left">{title}</DrawerTitle>
-              <DrawerDescription className="text-left">
-                {description}
-              </DrawerDescription>
-            </DrawerHeader>
-            <DrawerFooter className="grid grid-cols-2 gap-3">
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  if (navigator.share) {
-                    toast.promise(
-                      navigator.share({
-                        title,
-                        text: description,
-                        url: "https://xkcd.com/" + num,
-                      }),
-                      {
-                        loading: "Sharing...",
-                        success: "Shared!",
-                        error: "Failed to share",
-                      },
-                    );
-                  } else {
-                    toast.error("Sharing is not supported on this device");
-                  }
-                }}
-              >
-                <Share />
-                Share
-              </Button>
-              <Button variant="ghost">
-                <Download />
-                Download
-              </Button>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
-      )}
-    </>
   );
 }
