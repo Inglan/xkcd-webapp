@@ -150,7 +150,7 @@ export default function Home() {
         </Drawer>
         <div className="grow"></div>
         <AuthLoading>
-          <Skeleton className="h-[20px] w-[50px] rounded-full" />
+          <Skeleton className="h-[20px] w-[75px] rounded-full" />
         </AuthLoading>
         <Authenticated>
           <Drawer direction="right">
