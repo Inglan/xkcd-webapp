@@ -23,7 +23,7 @@ import { useMutation, useQuery, Authenticated } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import clsx from "clsx";
 import { toast } from "sonner";
-import MoreButton from "@/components/MoreButton";
+import MoreButton from "@/components/more-button";
 import { Skeleton } from "@/components/ui/skeleton";
 
 type ActionsBarProps = {

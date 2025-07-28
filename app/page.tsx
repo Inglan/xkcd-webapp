@@ -9,9 +9,9 @@ import { toast } from "sonner";
 import { useTheme } from "next-themes";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Skeleton } from "@/components/ui/skeleton";
-import ActionsBar from "@/components/ActionsBar";
-import SavedDrawer from "@/components/SavedDrawer";
-import AccountDrawer from "@/components/AccountDrawer";
+import ActionsBar from "@/components/actions-bar";
+import SavedDrawer from "@/components/saved-drawer";
+import AccountDrawer from "@/components/account-drawer";
 import { useAuthActions } from "@convex-dev/auth/react";
 import clsx from "clsx";
 
