@@ -94,21 +94,19 @@ export default function Home() {
         </Button>
       </div>
 
-      <div className="flex w-full h-full justify-center items-center">
-        <div className="flex flex-col max-w-[95%] max-h-[95%]">
-          {loading && <LoaderCircle className="animate-spin" />}
+      <div className="flex flex-col overflow-x-auto grow pb-20 mt-3">
+        {loading && <LoaderCircle className="animate-spin my-auto" />}
 
-          {img && (
-            <img
-              className={clsx(loading && "hidden", "dark:invert")}
-              onLoad={() => {
-                setLoading(false);
-              }}
-              src={img}
-              alt={alt}
-            />
-          )}
-        </div>
+        {img && (
+          <img
+            className={clsx(loading && "hidden", "dark:invert my-auto")}
+            onLoad={() => {
+              setLoading(false);
+            }}
+            src={img}
+            alt={alt}
+          />
+        )}
       </div>
       <ActionsBar
         title={title}
