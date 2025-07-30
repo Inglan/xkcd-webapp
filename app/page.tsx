@@ -22,6 +22,7 @@ export default function Home() {
   const [num, setNum] = useState(0);
   const [max, setMax] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [cached, setCached] = useState(false);
 
   const getById = useAction(api.xkcd.getById);
   const getLatest = useAction(api.xkcd.getLatest);
@@ -39,6 +40,7 @@ export default function Home() {
         setTitle(data.comic.title);
         setImg(data.comic.img);
         setAlt(data.comic.alt);
+        setCached(data.cached);
         if (data.comic.img == previousImg) {
           setLoading(false);
         }
@@ -58,6 +60,7 @@ export default function Home() {
       setImg(data.comic.img);
       setAlt(data.comic.alt);
       setMax(data.comic.num);
+      setCached(data.cached);
       setLoading(false);
     });
   }
@@ -133,6 +136,7 @@ export default function Home() {
         viewLatestAction={viewLatest}
         loading={loading}
         img={img}
+        cached={cached}
       />
     </div>
   );

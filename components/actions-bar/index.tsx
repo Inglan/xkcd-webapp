@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { cache, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge, badgeVariants } from "@/components/ui/badge";
 import {
@@ -18,6 +18,9 @@ import {
   Dice5,
   LoaderCircle,
   Bookmark,
+  Database,
+  BadgePlus,
+  Plus,
 } from "lucide-react";
 import { useMutation, useQuery, Authenticated } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -25,6 +28,8 @@ import clsx from "clsx";
 import { toast } from "sonner";
 import MoreButton from "@/components/more-button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 type ActionsBarProps = {
   title: string;
@@ -36,6 +41,7 @@ type ActionsBarProps = {
   viewLatestAction: () => void;
   loading: boolean;
   img: string;
+  cached: boolean;
 };
 
 export default function ActionsBar({
@@ -48,6 +54,7 @@ export default function ActionsBar({
   viewLatestAction: viewLatest,
   loading,
   img,
+  cached,
 }: ActionsBarProps) {
   const saveMutation = useMutation(api.saves.toggle);
   const isSaved = useQuery(api.saves.isSaved, { num });
@@ -55,6 +62,19 @@ export default function ActionsBar({
 
   return (
     <div className="flex gap-2 p-3 md:w-fit w-full border-t md:border md:rounded-md fixed bottom-0 md:bottom-3 bg-background">
+      {!cached && (
+        <Popover>
+          <PopoverTrigger className={badgeVariants()}>
+            <Plus />
+          </PopoverTrigger>
+          <PopoverContent align="start">
+            You are the first person to see this comic!
+            <br />
+            It has been added to the database to make future loads faster for
+            everyone.
+          </PopoverContent>
+        </Popover>
+      )}
       <DropdownMenu>
         <DropdownMenuTrigger
           className={badgeVariants({ variant: "secondary" })}
