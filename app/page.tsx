@@ -91,8 +91,8 @@ export default function Home() {
   });
 
   return (
-    <div className="h-screen w-screen flex flex-col items-center p-3">
-      <div className="flex flex-row container m-auto gap-1 justify-center items-center">
+    <div className="h-screen w-screen flex flex-col items-center">
+      <div className="flex flex-row container m-auto gap-1 justify-center items-center p-3">
         xkcd-webapp
         <div className="grow"></div>
         <AuthLoading>
@@ -113,7 +113,7 @@ export default function Home() {
         </Button>
       </div>
 
-      <div className="flex flex-col overflow-x-auto grow pb-20 mt-3">
+      <div className="flex flex-col overflow-x-auto grow mt-3">
         {loading && <LoaderCircle className="animate-spin my-auto" />}
 
         {img && (

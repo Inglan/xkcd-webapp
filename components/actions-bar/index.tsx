@@ -74,7 +74,7 @@ export default function ActionsBar({
   const [inputDialogOpen, setInputDialogOpen] = useState(false);
 
   return (
-    <div className="grid grid-cols-[1fr_auto_1fr] gap-2 p-3 w-full border-t fixed bottom-0 bg-background ">
+    <div className="grid grid-cols-[1fr_auto_1fr] gap-2 p-3 w-full border-t bg-background ">
       <div className="flex flex-row gap-2 mr-auto">
         {!cached && (
           <Popover>
