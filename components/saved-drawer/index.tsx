@@ -10,7 +10,7 @@ import {
 import { Button, buttonVariants } from "@/components/ui/button";
 import { AnimatePresence, motion } from "motion/react";
 import SavedCard from "@/components/saved-card";
-import { useQuery, Authenticated } from "convex/react";
+import { useQuery, Authenticated, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
@@ -37,6 +37,8 @@ export default function SavedDrawer({
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [enteredRestoreData, setEnteredRestoreData] = useState("");
   const [importDialogOpen, setImportDialogOpen] = useState(false);
+
+  const importData = useMutation(api.saves.importData);
 
   function load(id: number) {
     loadById(id);
@@ -90,16 +92,11 @@ export default function SavedDrawer({
                     onSubmit={(e) => {
                       e.preventDefault();
                       setImportDialogOpen(false);
-                      toast.promise(
-                        new Promise((resolve) => {
-                          setTimeout(() => resolve("Imported"), 2000);
-                        }),
-                        {
-                          loading: "Importing...",
-                          success: "Imported",
-                          error: "Failed to import",
-                        },
-                      );
+                      toast.promise(importData({ data: enteredRestoreData }), {
+                        loading: "Importing...",
+                        success: "Imported",
+                        error: "Failed to import",
+                      });
                     }}
                   >
                     <DialogHeader>
