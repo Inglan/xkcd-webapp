@@ -34,7 +34,7 @@ export default function Home() {
 
     setNum(id);
     setLoading(true);
-    setCached(false);
+    setCached(true);
 
     getById({ id })
       .then((data) => {
