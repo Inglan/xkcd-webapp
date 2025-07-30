@@ -13,6 +13,7 @@ import SavedCard from "@/components/saved-card";
 import { useQuery, Authenticated } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useState } from "react";
 
 type SavedDrawerProps = {
   loadByIdAction: (id: number) => void;
@@ -22,10 +23,16 @@ export default function SavedDrawer({
   loadByIdAction: loadById,
 }: SavedDrawerProps) {
   const saves = useQuery(api.saves.get, {});
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  function load(id: number) {
+    loadById(id);
+    setDrawerOpen(false);
+  }
 
   return (
     <Authenticated>
-      <Drawer direction="right">
+      <Drawer direction="right" open={drawerOpen} onOpenChange={setDrawerOpen}>
         <DrawerTrigger className={buttonVariants({ variant: "ghost" })}>
           Saved
         </DrawerTrigger>
@@ -49,7 +56,7 @@ export default function SavedDrawer({
               {saves &&
                 saves.map((save) => (
                   <SavedCard
-                    loadByIdAction={loadById}
+                    loadByIdAction={load}
                     comic={save}
                     key={save.num}
                   />
