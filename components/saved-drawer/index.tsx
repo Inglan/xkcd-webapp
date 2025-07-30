@@ -37,8 +37,17 @@ export default function SavedDrawer({
           Saved
         </DrawerTrigger>
         <DrawerContent>
-          <DrawerHeader>
+          <DrawerHeader className="flex flex-row">
             <DrawerTitle>Saved</DrawerTitle>
+            <div className="grow"></div>
+            <div className="flex flex-row gap-3">
+              <Button variant="ghost" size="sm">
+                Export
+              </Button>
+              <Button variant="ghost" size="sm">
+                Import
+              </Button>
+            </div>
           </DrawerHeader>
           <div className="p-4 flex flex-col gap-3 overflow-y-auto grow">
             <AnimatePresence>
