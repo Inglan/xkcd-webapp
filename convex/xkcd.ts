@@ -7,6 +7,7 @@ import {
   query,
 } from "./_generated/server";
 import { internal } from "./_generated/api";
+import { Id } from "./_generated/dataModel";
 
 export const getCachedById = internalQuery({
   handler: async (ctx, args) => {
@@ -22,6 +23,13 @@ export const getCachedById = internalQuery({
 
 export const cacheComic = internalAction({
   handler: async (ctx, args) => {
+    const imageUrl = args.img;
+
+    const response = await fetch(imageUrl);
+    const image = await response.blob();
+
+    const storageId: Id<"_storage"> = await ctx.storage.store(image);
+
     await ctx.runMutation(internal.xkcd.writeCachedComic, {
       month: args.month,
       num: args.num,
@@ -34,6 +42,7 @@ export const cacheComic = internalAction({
       img: args.img,
       title: args.title,
       day: args.day,
+      storageId: storageId,
     });
   },
   args: {
@@ -65,6 +74,7 @@ export const writeCachedComic = internalMutation({
       img: args.img,
       title: args.title,
       day: args.day,
+      storageId: args.storageId,
     });
   },
   args: {
@@ -79,6 +89,7 @@ export const writeCachedComic = internalMutation({
     img: v.string(),
     title: v.string(),
     day: v.string(),
+    storageId: v.optional(v.id("_storage")),
   },
 });
 
