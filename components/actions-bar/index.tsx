@@ -22,6 +22,7 @@ import {
   BadgePlus,
   Plus,
   CornerDownLeft,
+  Divide,
 } from "lucide-react";
 import { useMutation, useQuery, Authenticated } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -73,126 +74,131 @@ export default function ActionsBar({
   const [inputDialogOpen, setInputDialogOpen] = useState(false);
 
   return (
-    <div className="flex gap-2 p-3 md:w-fit w-full border-t md:border md:rounded-md fixed bottom-0 md:bottom-3 bg-background">
-      {!cached && (
-        <Popover>
-          <PopoverTrigger className={badgeVariants()}>
-            <Plus />
-          </PopoverTrigger>
-          <PopoverContent align="start">
-            You are the first person to see this comic!
-            <br />
-            It has been added to the database to make future loads faster for
-            everyone.
-          </PopoverContent>
-        </Popover>
-      )}
+    <div className="grid grid-cols-[1fr_auto_1fr] gap-2 p-3 w-full border-t fixed bottom-0 bg-background ">
+      <div className="flex flex-row gap-2 mr-auto">
+        {!cached && (
+          <Popover>
+            <PopoverTrigger className={badgeVariants()}>
+              <Plus />
+            </PopoverTrigger>
+            <PopoverContent align="start">
+              You are the first person to see this comic!
+              <br />
+              It has been added to the database to make future loads faster for
+              everyone.
+            </PopoverContent>
+          </Popover>
+        )}
 
-      <Dialog open={inputDialogOpen} onOpenChange={setInputDialogOpen}>
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            className={badgeVariants({ variant: "secondary" })}
-          >
-            #{num} <ChevronUp />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start">
-            <DropdownMenuLabel>Go to</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={viewLatest}>Today</DropdownMenuItem>
-            <DialogTrigger asChild>
-              <DropdownMenuItem>Enter number</DropdownMenuItem>
-            </DialogTrigger>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Dialog open={inputDialogOpen} onOpenChange={setInputDialogOpen}>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              className={badgeVariants({ variant: "secondary" })}
+            >
+              #{num} <ChevronUp />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuLabel>Go to</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={viewLatest}>Today</DropdownMenuItem>
+              <DialogTrigger asChild>
+                <DropdownMenuItem>Enter number</DropdownMenuItem>
+              </DialogTrigger>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
-        <DialogContent>
-          <form
-            className="grid gap-4"
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (inputtedNum === "") return;
-              loadById(Number(inputtedNum));
-              setInputtedNum("");
-              setInputDialogOpen(false);
-            }}
-          >
-            <DialogHeader>
-              <DialogTitle>Go to</DialogTitle>
-            </DialogHeader>
-            <Input
-              required
-              type="number"
-              value={inputtedNum}
-              max={max}
-              onChange={(e) => setInputtedNum(e.target.value)}
-            />
-            <DialogFooter>
-              <Button>
-                Go
-                <CornerDownLeft />
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-      <div className="grow md:hidden"></div>
-      <Button
-        disabled={num === 1}
-        size="icon"
-        variant="ghost"
-        onClick={() => {
-          if (num - 1 > 0) {
-            loadById(num - 1);
-          }
-        }}
-      >
-        <ChevronLeft />
-        <span className="sr-only">Previous</span>
-      </Button>
-      <Button
-        disabled={num === max}
-        size="icon"
-        variant="ghost"
-        onClick={() => {
-          if (num + 1 > 0) {
-            loadById(num + 1);
-          }
-        }}
-      >
-        <ChevronRight />
-        <span className="sr-only">Next</span>
-      </Button>
-      <Button
-        size="icon"
-        variant="ghost"
-        onClick={() => {
-          loadById(Math.floor(Math.random() * max));
-        }}
-      >
-        <Dice5 />
-        <span className="sr-only">Random</span>
-      </Button>
-      <Authenticated>
+          <DialogContent>
+            <form
+              className="grid gap-4"
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (inputtedNum === "") return;
+                loadById(Number(inputtedNum));
+                setInputtedNum("");
+                setInputDialogOpen(false);
+              }}
+            >
+              <DialogHeader>
+                <DialogTitle>Go to</DialogTitle>
+              </DialogHeader>
+              <Input
+                required
+                type="number"
+                value={inputtedNum}
+                max={max}
+                onChange={(e) => setInputtedNum(e.target.value)}
+              />
+              <DialogFooter>
+                <Button>
+                  Go
+                  <CornerDownLeft />
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </div>
+      <div className="gap-2 flex flex-row">
         <Button
-          disabled={loading}
+          disabled={num === 1}
           size="icon"
           variant="ghost"
           onClick={() => {
-            if (!saving) {
-              setSaving(true);
-              saveMutation({ num: num }).then(() => setSaving(false));
+            if (num - 1 > 0) {
+              loadById(num - 1);
             }
           }}
         >
-          {saving ? (
-            <LoaderCircle className="w-4 h-4 animate-spin" />
-          ) : (
-            <Bookmark className={clsx(isSaved && "text-red-500")} />
-          )}
-          <span className="sr-only">Save</span>
+          <ChevronLeft />
+          <span className="sr-only">Previous</span>
         </Button>
-      </Authenticated>
-      <MoreButton title={title} description={alt} img={img} num={num} />
+        <Button
+          disabled={num === max}
+          size="icon"
+          variant="ghost"
+          onClick={() => {
+            if (num + 1 > 0) {
+              loadById(num + 1);
+            }
+          }}
+        >
+          <ChevronRight />
+          <span className="sr-only">Next</span>
+        </Button>
+      </div>
+      <div className="ml-auto flex flex-row gap-2">
+        <Button
+          size="icon"
+          variant="ghost"
+          onClick={() => {
+            loadById(Math.floor(Math.random() * max));
+          }}
+        >
+          <Dice5 />
+          <span className="sr-only">Random</span>
+        </Button>
+        <Authenticated>
+          <Button
+            disabled={loading}
+            size="icon"
+            variant="ghost"
+            onClick={() => {
+              if (!saving) {
+                setSaving(true);
+                saveMutation({ num: num }).then(() => setSaving(false));
+              }
+            }}
+          >
+            {saving ? (
+              <LoaderCircle className="w-4 h-4 animate-spin" />
+            ) : (
+              <Bookmark className={clsx(isSaved && "text-red-500")} />
+            )}
+            <span className="sr-only">Save</span>
+          </Button>
+        </Authenticated>
+        <MoreButton title={title} description={alt} img={img} num={num} />
+      </div>
     </div>
   );
 }
