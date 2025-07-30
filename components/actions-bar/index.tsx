@@ -21,6 +21,7 @@ import {
   Database,
   BadgePlus,
   Plus,
+  CornerDownLeft,
 } from "lucide-react";
 import { useMutation, useQuery, Authenticated } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -30,6 +31,15 @@ import MoreButton from "@/components/more-button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { Input } from "../ui/input";
 
 type ActionsBarProps = {
   title: string;
@@ -59,6 +69,8 @@ export default function ActionsBar({
   const saveMutation = useMutation(api.saves.toggle);
   const isSaved = useQuery(api.saves.isSaved, { num });
   const [saving, setSaving] = useState(false);
+  const [inputtedNum, setInputtedNum] = useState("");
+  const [inputDialogOpen, setInputDialogOpen] = useState(false);
 
   return (
     <div className="flex gap-2 p-3 md:w-fit w-full border-t md:border md:rounded-md fixed bottom-0 md:bottom-3 bg-background">
@@ -75,19 +87,53 @@ export default function ActionsBar({
           </PopoverContent>
         </Popover>
       )}
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          className={badgeVariants({ variant: "secondary" })}
-        >
-          #{num} <ChevronUp />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="start">
-          <DropdownMenuLabel>Go to</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={viewLatest}>Today</DropdownMenuItem>
-          <DropdownMenuItem>Enter number</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+
+      <Dialog open={inputDialogOpen} onOpenChange={setInputDialogOpen}>
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            className={badgeVariants({ variant: "secondary" })}
+          >
+            #{num} <ChevronUp />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuLabel>Go to</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={viewLatest}>Today</DropdownMenuItem>
+            <DialogTrigger asChild>
+              <DropdownMenuItem>Enter number</DropdownMenuItem>
+            </DialogTrigger>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <DialogContent>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (inputtedNum === "") return;
+              loadById(Number(inputtedNum));
+              setInputtedNum("");
+              setInputDialogOpen(false);
+            }}
+          >
+            <DialogHeader>
+              <DialogTitle>Go to</DialogTitle>
+            </DialogHeader>
+            <Input
+              required
+              type="number"
+              value={inputtedNum}
+              max={max}
+              onChange={(e) => setInputtedNum(e.target.value)}
+            />
+            <DialogFooter>
+              <Button>
+                Go
+                <CornerDownLeft />
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
       <div className="grow md:hidden"></div>
       <Button
         disabled={num === 1}
