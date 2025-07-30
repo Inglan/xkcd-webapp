@@ -72,3 +72,32 @@ export const isSaved = query({
     return !!save;
   },
 });
+
+export const importData = mutation({
+  args: {
+    data: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      return;
+    }
+
+    const saves = args.data.split(",");
+
+    for (const save of saves) {
+      const existingSave = await ctx.db
+        .query("saves")
+        .withIndex("by_user_num", (q) =>
+          q.eq("user", userId).eq("num", parseInt(save)),
+        )
+        .first();
+      if (!existingSave) {
+        await ctx.db.insert("saves", {
+          user: userId,
+          num: parseInt(save),
+        });
+      }
+    }
+  },
+});
