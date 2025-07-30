@@ -92,11 +92,21 @@ export default function SavedDrawer({
                     onSubmit={(e) => {
                       e.preventDefault();
                       setImportDialogOpen(false);
-                      toast.promise(importData({ data: enteredRestoreData }), {
-                        loading: "Importing...",
-                        success: "Imported",
-                        error: "Failed to import",
-                      });
+                      toast.promise(
+                        new Promise((resolve, reject) => {
+                          importData({ data: enteredRestoreData })
+                            .then((promise) => {
+                              setEnteredRestoreData("");
+                              resolve(promise);
+                            })
+                            .catch(reject);
+                        }),
+                        {
+                          loading: "Importing...",
+                          success: "Imported",
+                          error: "Failed to import",
+                        },
+                      );
                     }}
                   >
                     <DialogHeader>
