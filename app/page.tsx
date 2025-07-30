@@ -36,10 +36,10 @@ export default function Home() {
 
     getById({ id })
       .then((data) => {
-        setTitle(data.title);
-        setImg(data.img);
-        setAlt(data.alt);
-        if (data.img == previousImg) {
+        setTitle(data.comic.title);
+        setImg(data.comic.img);
+        setAlt(data.comic.alt);
+        if (data.comic.img == previousImg) {
           setLoading(false);
         }
       })
@@ -53,11 +53,11 @@ export default function Home() {
   function viewLatest() {
     setLoading(true);
     getLatest({}).then((data) => {
-      setNum(data.num);
-      setTitle(data.title);
-      setImg(data.img);
-      setAlt(data.alt);
-      setMax(data.num);
+      setNum(data.comic.num);
+      setTitle(data.comic.title);
+      setImg(data.comic.img);
+      setAlt(data.comic.alt);
+      setMax(data.comic.num);
       setLoading(false);
     });
   }

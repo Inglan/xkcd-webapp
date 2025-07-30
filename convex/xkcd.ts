@@ -124,17 +124,19 @@ export const getById = action({
     ctx,
     args,
   ): Promise<{
-    month: string;
-    num: number;
-    link: string;
-    year: string;
-    news: string;
-    safe_title: string;
-    transcript: string;
-    alt: string;
-    img: string;
-    title: string;
-    day: string;
+    comic: {
+      month: string;
+      num: number;
+      link: string;
+      year: string;
+      news: string;
+      safe_title: string;
+      transcript: string;
+      alt: string;
+      img: string;
+      title: string;
+      day: string;
+    };
   }> => {
     const cachedComic: Doc<"comics"> | null = await ctx.runQuery(
       internal.xkcd.getCachedById,
@@ -144,19 +146,7 @@ export const getById = action({
     );
 
     if (cachedComic) {
-      return {
-        month: cachedComic.month,
-        num: cachedComic.num,
-        link: cachedComic.link,
-        year: cachedComic.year,
-        news: cachedComic.news,
-        safe_title: cachedComic.safe_title,
-        transcript: cachedComic.transcript,
-        alt: cachedComic.alt,
-        img: cachedComic.img,
-        title: cachedComic.title,
-        day: cachedComic.day,
-      };
+      return { comic: cachedComic };
     }
 
     const data = await fetch(`https://xkcd.com/${args.id}/info.0.json`);
@@ -174,7 +164,7 @@ export const getById = action({
       day: string;
     };
 
-    return await cacheComic(json, ctx);
+    return { comic: await cacheComic(json, ctx) };
   },
   args: {
     id: v.number(),
@@ -186,17 +176,19 @@ export const getLatest = action({
     ctx,
     args,
   ): Promise<{
-    month: string;
-    num: number;
-    link: string;
-    year: string;
-    news: string;
-    safe_title: string;
-    transcript: string;
-    alt: string;
-    img: string;
-    title: string;
-    day: string;
+    comic: {
+      month: string;
+      num: number;
+      link: string;
+      year: string;
+      news: string;
+      safe_title: string;
+      transcript: string;
+      alt: string;
+      img: string;
+      title: string;
+      day: string;
+    };
   }> => {
     const data = await fetch(`https://xkcd.com/info.0.json`);
     const json = (await data.json()) as {
@@ -221,9 +213,9 @@ export const getLatest = action({
     );
 
     if (cachedComic) {
-      return cachedComic;
+      return { comic: cachedComic };
     } else {
-      return await cacheComic(json, ctx);
+      return { comic: await cacheComic(json, ctx) };
     }
   },
 });
