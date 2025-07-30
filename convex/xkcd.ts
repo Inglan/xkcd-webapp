@@ -19,7 +19,7 @@ export const getCachedById = internalQuery({
   },
 });
 
-export const cacheComic = internalMutation({
+export const writeCachedComic = internalMutation({
   handler: async (ctx, args) => {
     await ctx.db.insert("comics", {
       month: args.month,
@@ -99,7 +99,7 @@ export const getById = action({
       day: string;
     };
 
-    await ctx.runMutation(internal.xkcd.cacheComic, {
+    await ctx.runMutation(internal.xkcd.writeCachedComic, {
       month: json.month,
       num: json.num,
       link: json.link,
@@ -154,7 +154,7 @@ export const getLatest = action({
     });
 
     if (cachedComic.length == 0) {
-      await ctx.runMutation(internal.xkcd.cacheComic, {
+      await ctx.runMutation(internal.xkcd.writeCachedComic, {
         month: json.month,
         num: json.num,
         link: json.link,
