@@ -30,6 +30,7 @@ type ActionsBarProps = {
   title: string;
   alt: string;
   num: number;
+  max: number;
   setNumAction: (num: number) => void;
   loadByIdAction: (id: number) => void;
   loading: boolean;
@@ -40,6 +41,7 @@ export default function ActionsBar({
   title,
   alt,
   num,
+  max,
   setNumAction: setNum,
   loadByIdAction: loadById,
   loading,
@@ -66,7 +68,7 @@ export default function ActionsBar({
       </DropdownMenu>
       <div className="grow md:hidden"></div>
       <Button
-        disabled={num === 1 || loading}
+        disabled={num === 1}
         size="icon"
         variant="ghost"
         onClick={() => {
@@ -79,7 +81,7 @@ export default function ActionsBar({
         <span className="sr-only">Previous</span>
       </Button>
       <Button
-        disabled={loading}
+        disabled={num === max}
         size="icon"
         variant="ghost"
         onClick={() => {

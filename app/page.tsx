@@ -20,6 +20,7 @@ export default function Home() {
   const [title, setTitle] = useState("");
   const [alt, setAlt] = useState("");
   const [num, setNum] = useState(0);
+  const [max, setMax] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const getById = useAction(api.xkcd.getById);
@@ -55,20 +56,28 @@ export default function Home() {
       setTitle(data.title);
       setImg(data.img);
       setAlt(data.alt);
+      setMax(data.num);
     });
   }, []);
 
+  const left = () => {
+    if (num !== 0) loadById(num - 1);
+  };
+  const right = () => {
+    if (num !== max) loadById(num + 1);
+  };
+
   useHotkeys("ArrowRight", () => {
-    loadById(num + 1);
+    right();
   });
   useHotkeys("ArrowLeft", () => {
-    loadById(num - 1);
+    left();
   });
   useHotkeys("l", () => {
-    loadById(num + 1);
+    right();
   });
   useHotkeys("h", () => {
-    loadById(num - 1);
+    left();
   });
 
   return (
@@ -112,6 +121,7 @@ export default function Home() {
         title={title}
         alt={alt}
         num={num}
+        max={max}
         setNumAction={setNum}
         loadByIdAction={loadById}
         loading={loading}
