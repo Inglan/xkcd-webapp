@@ -119,13 +119,7 @@ export default function ActionsBar({
           <span className="sr-only">Save</span>
         </Button>
       </Authenticated>
-      <MoreButton
-        title={title}
-        description={alt}
-        img={img}
-        num={num}
-        viewLatestAction={viewLatest}
-      />
+      <MoreButton title={title} description={alt} img={img} num={num} />
     </div>
   );
 }
