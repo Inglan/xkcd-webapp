@@ -113,7 +113,7 @@ export default function Home() {
         </Button>
       </div>
 
-      <div className="flex flex-col overflow-x-auto grow mt-3">
+      <div className="flex flex-col overflow-x-auto grow mt-3 p-3">
         {loading && <LoaderCircle className="animate-spin my-auto" />}
 
         {img && (
