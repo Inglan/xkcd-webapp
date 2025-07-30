@@ -15,6 +15,7 @@ const schema = defineSchema({
     img: v.string(),
     title: v.string(),
     day: v.string(),
+    storageId: v.id("_storage"),
   }).index("by_num", ["num"]),
   saves: defineTable({
     num: v.number(),
