@@ -162,7 +162,13 @@ export default function ActionsBar({
         <ChevronRight />
         <span className="sr-only">Next</span>
       </Button>
-      <Button disabled={loading} size="icon" variant="ghost">
+      <Button
+        size="icon"
+        variant="ghost"
+        onClick={() => {
+          loadById(Math.floor(Math.random() * max));
+        }}
+      >
         <Dice5 />
         <span className="sr-only">Random</span>
       </Button>
