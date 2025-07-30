@@ -107,6 +107,7 @@ export default function ActionsBar({
 
         <DialogContent>
           <form
+            className="grid gap-4"
             onSubmit={(e) => {
               e.preventDefault();
               if (inputtedNum === "") return;
