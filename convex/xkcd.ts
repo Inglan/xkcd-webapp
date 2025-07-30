@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import {
   action,
+  internalAction,
   internalMutation,
   internalQuery,
   query,
@@ -16,6 +17,37 @@ export const getCachedById = internalQuery({
   },
   args: {
     id: v.number(),
+  },
+});
+
+export const cacheComic = internalAction({
+  handler: async (ctx, args) => {
+    await ctx.runMutation(internal.xkcd.writeCachedComic, {
+      month: args.month,
+      num: args.num,
+      link: args.link,
+      year: args.year,
+      news: args.news,
+      safe_title: args.safe_title,
+      transcript: args.transcript,
+      alt: args.alt,
+      img: args.img,
+      title: args.title,
+      day: args.day,
+    });
+  },
+  args: {
+    month: v.string(),
+    num: v.number(),
+    link: v.string(),
+    year: v.string(),
+    news: v.string(),
+    safe_title: v.string(),
+    transcript: v.string(),
+    alt: v.string(),
+    img: v.string(),
+    title: v.string(),
+    day: v.string(),
   },
 });
 
@@ -99,7 +131,7 @@ export const getById = action({
       day: string;
     };
 
-    await ctx.runMutation(internal.xkcd.writeCachedComic, {
+    await ctx.runAction(internal.xkcd.cacheComic, {
       month: json.month,
       num: json.num,
       link: json.link,
@@ -154,7 +186,7 @@ export const getLatest = action({
     });
 
     if (cachedComic.length == 0) {
-      await ctx.runMutation(internal.xkcd.writeCachedComic, {
+      await ctx.runAction(internal.xkcd.cacheComic, {
         month: json.month,
         num: json.num,
         link: json.link,
