@@ -22,7 +22,7 @@ export default function Home() {
   const [num, setNum] = useState(0);
   const [max, setMax] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [cached, setCached] = useState(false);
+  const [cached, setCached] = useState(true);
 
   const getById = useAction(api.xkcd.getById);
   const getLatest = useAction(api.xkcd.getLatest);
