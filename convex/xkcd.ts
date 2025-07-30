@@ -48,14 +48,30 @@ async function cacheComic(
     day: data.day,
     storageId: storageId,
   });
+
+  return {
+    month: data.month,
+    num: data.num,
+    link: data.link,
+    year: data.year,
+    news: data.news,
+    safe_title: data.safe_title,
+    transcript: data.transcript,
+    alt: data.alt,
+    img: data.img,
+    title: data.title,
+    day: data.day,
+    storageId: storageId,
+  };
 }
 
 export const getCachedById = internalQuery({
-  handler: async (ctx, args) => {
-    return await ctx.db
+  handler: async (ctx, args): Promise<Doc<"comics"> | null> => {
+    const comic = await ctx.db
       .query("comics")
       .withIndex("by_num", (q) => q.eq("num", args.id))
-      .collect();
+      .first();
+    return comic;
   },
   args: {
     id: v.number(),
@@ -96,36 +112,42 @@ export const writeCachedComic = internalMutation({
 });
 
 export const getById = action({
-  handler: async (ctx, args) => {
-    const cachedComic: {
-      month: string;
-      num: number;
-      link: string;
-      year: string;
-      news: string;
-      safe_title: string;
-      transcript: string;
-      alt: string;
-      img: string;
-      title: string;
-      day: string;
-    }[] = await ctx.runQuery(internal.xkcd.getCachedById, {
-      id: args.id,
-    });
+  handler: async (
+    ctx,
+    args,
+  ): Promise<{
+    month: string;
+    num: number;
+    link: string;
+    year: string;
+    news: string;
+    safe_title: string;
+    transcript: string;
+    alt: string;
+    img: string;
+    title: string;
+    day: string;
+  }> => {
+    const cachedComic: Doc<"comics"> | null = await ctx.runQuery(
+      internal.xkcd.getCachedById,
+      {
+        id: args.id,
+      },
+    );
 
-    if (cachedComic.length > 0) {
+    if (cachedComic) {
       return {
-        month: cachedComic[0].month,
-        num: cachedComic[0].num,
-        link: cachedComic[0].link,
-        year: cachedComic[0].year,
-        news: cachedComic[0].news,
-        safe_title: cachedComic[0].safe_title,
-        transcript: cachedComic[0].transcript,
-        alt: cachedComic[0].alt,
-        img: cachedComic[0].img,
-        title: cachedComic[0].title,
-        day: cachedComic[0].day,
+        month: cachedComic.month,
+        num: cachedComic.num,
+        link: cachedComic.link,
+        year: cachedComic.year,
+        news: cachedComic.news,
+        safe_title: cachedComic.safe_title,
+        transcript: cachedComic.transcript,
+        alt: cachedComic.alt,
+        img: cachedComic.img,
+        title: cachedComic.title,
+        day: cachedComic.day,
       };
     }
 
@@ -144,9 +166,7 @@ export const getById = action({
       day: string;
     };
 
-    await cacheComic(json, ctx);
-
-    return json;
+    return await cacheComic(json, ctx);
   },
   args: {
     id: v.number(),
@@ -170,23 +190,11 @@ export const getLatest = action({
       day: string;
     };
 
-    const cachedComic: {
-      month: string;
-      num: number;
-      link: string;
-      year: string;
-      news: string;
-      safe_title: string;
-      transcript: string;
-      alt: string;
-      img: string;
-      title: string;
-      day: string;
-    }[] = await ctx.runQuery(internal.xkcd.getCachedById, {
+    const cachedComic = await ctx.runQuery(internal.xkcd.getCachedById, {
       id: json.num,
     });
 
-    if (cachedComic.length == 0) {
+    if (!cachedComic) {
       await cacheComic(json, ctx);
     }
 
