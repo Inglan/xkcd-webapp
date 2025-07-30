@@ -58,19 +58,27 @@ async function cacheComic(
     safe_title: data.safe_title,
     transcript: data.transcript,
     alt: data.alt,
-    img: data.img,
+    img: (await ctx.storage.getUrl(storageId)) || data.img,
     title: data.title,
     day: data.day,
-    storageId: storageId,
   };
 }
 
 export const getCachedById = internalQuery({
   handler: async (ctx, args): Promise<Doc<"comics"> | null> => {
-    const comic = await ctx.db
+    let comic = await ctx.db
       .query("comics")
       .withIndex("by_num", (q) => q.eq("num", args.id))
       .first();
+
+    if (!comic) {
+      return null;
+    }
+
+    if (comic.storageId) {
+      comic.img = (await ctx.storage.getUrl(comic.storageId)) || comic.img;
+    }
+
     return comic;
   },
   args: {
@@ -195,7 +203,7 @@ export const getLatest = action({
     });
 
     if (!cachedComic) {
-      await cacheComic(json, ctx);
+      return await cacheComic(json, ctx);
     }
 
     return json;
