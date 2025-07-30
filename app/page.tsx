@@ -50,14 +50,20 @@ export default function Home() {
       });
   }
 
-  useEffect(() => {
+  function viewLatest() {
+    setLoading(true);
     getLatest({}).then((data) => {
       setNum(data.num);
       setTitle(data.title);
       setImg(data.img);
       setAlt(data.alt);
       setMax(data.num);
+      setLoading(false);
     });
+  }
+
+  useEffect(() => {
+    viewLatest();
   }, []);
 
   const left = () => {
@@ -124,6 +130,7 @@ export default function Home() {
         max={max}
         setNumAction={setNum}
         loadByIdAction={loadById}
+        viewLatestAction={viewLatest}
         loading={loading}
         img={img}
       />

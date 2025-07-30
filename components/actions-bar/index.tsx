@@ -33,6 +33,7 @@ type ActionsBarProps = {
   max: number;
   setNumAction: (num: number) => void;
   loadByIdAction: (id: number) => void;
+  viewLatestAction: () => void;
   loading: boolean;
   img: string;
 };
@@ -44,6 +45,7 @@ export default function ActionsBar({
   max,
   setNumAction: setNum,
   loadByIdAction: loadById,
+  viewLatestAction: viewLatest,
   loading,
   img,
 }: ActionsBarProps) {
@@ -62,7 +64,7 @@ export default function ActionsBar({
         <DropdownMenuContent align="start">
           <DropdownMenuLabel>Go to</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Today</DropdownMenuItem>
+          <DropdownMenuItem onClick={viewLatest}>Today</DropdownMenuItem>
           <DropdownMenuItem>Enter number</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -117,7 +119,13 @@ export default function ActionsBar({
           <span className="sr-only">Save</span>
         </Button>
       </Authenticated>
-      <MoreButton title={title} description={alt} img={img} num={num} />
+      <MoreButton
+        title={title}
+        description={alt}
+        img={img}
+        num={num}
+        viewLatestAction={viewLatest}
+      />
     </div>
   );
 }
