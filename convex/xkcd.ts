@@ -137,6 +137,7 @@ export const getById = action({
       title: string;
       day: string;
     };
+    cached: boolean;
   }> => {
     const cachedComic: Doc<"comics"> | null = await ctx.runQuery(
       internal.xkcd.getCachedById,
@@ -146,7 +147,7 @@ export const getById = action({
     );
 
     if (cachedComic) {
-      return { comic: cachedComic };
+      return { comic: cachedComic, cached: true };
     }
 
     const data = await fetch(`https://xkcd.com/${args.id}/info.0.json`);
@@ -164,7 +165,7 @@ export const getById = action({
       day: string;
     };
 
-    return { comic: await cacheComic(json, ctx) };
+    return { comic: await cacheComic(json, ctx), cached: false };
   },
   args: {
     id: v.number(),
@@ -189,6 +190,7 @@ export const getLatest = action({
       title: string;
       day: string;
     };
+    cached: boolean;
   }> => {
     const data = await fetch(`https://xkcd.com/info.0.json`);
     const json = (await data.json()) as {
@@ -213,9 +215,9 @@ export const getLatest = action({
     );
 
     if (cachedComic) {
-      return { comic: cachedComic };
+      return { comic: cachedComic, cached: true };
     } else {
-      return { comic: await cacheComic(json, ctx) };
+      return { comic: await cacheComic(json, ctx), cached: false };
     }
   },
 });
