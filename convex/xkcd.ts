@@ -182,7 +182,22 @@ export const getById = action({
 });
 
 export const getLatest = action({
-  handler: async (ctx, args) => {
+  handler: async (
+    ctx,
+    args,
+  ): Promise<{
+    month: string;
+    num: number;
+    link: string;
+    year: string;
+    news: string;
+    safe_title: string;
+    transcript: string;
+    alt: string;
+    img: string;
+    title: string;
+    day: string;
+  }> => {
     const data = await fetch(`https://xkcd.com/info.0.json`);
     const json = (await data.json()) as {
       month: string;
@@ -198,14 +213,17 @@ export const getLatest = action({
       day: string;
     };
 
-    const cachedComic = await ctx.runQuery(internal.xkcd.getCachedById, {
-      id: json.num,
-    });
+    const cachedComic: Doc<"comics"> | null = await ctx.runQuery(
+      internal.xkcd.getCachedById,
+      {
+        id: json.num,
+      },
+    );
 
-    if (!cachedComic) {
+    if (cachedComic) {
+      return cachedComic;
+    } else {
       return await cacheComic(json, ctx);
     }
-
-    return json;
   },
 });
