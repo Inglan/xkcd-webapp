@@ -107,11 +107,11 @@ export default function AccountDrawer() {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Delete account</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete your account? This
-                    action cannot be undone.
+                    Are you sure you want to delete your account? This action
+                    cannot be undone.
                     <br />
-                    Yes, as soon as you press continue <em>ALL</em> your
-                    data will be erased forever. I don't retain any of it.
+                    Yes, as soon as you press continue <em>ALL</em> your data
+                    will be erased forever. I don't retain any of it.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
