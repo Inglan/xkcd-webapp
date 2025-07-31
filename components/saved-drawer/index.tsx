@@ -25,6 +25,7 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { toast } from "sonner";
+import { useHotkeys } from "react-hotkeys-hook";
 
 type SavedDrawerProps = {
   loadByIdAction: (id: number) => void;
@@ -39,6 +40,10 @@ export default function SavedDrawer({
   const [importDialogOpen, setImportDialogOpen] = useState(false);
 
   const importData = useMutation(api.saves.importData);
+
+  useHotkeys("shift+s", () => {
+    setDrawerOpen(!drawerOpen);
+  });
 
   function load(id: number) {
     loadById(id);
