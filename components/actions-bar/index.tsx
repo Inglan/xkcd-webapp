@@ -81,6 +81,16 @@ export default function ActionsBar({
   useHotkeys("r", () => {
     loadById(Math.floor(Math.random() * max));
   });
+  useHotkeys("t", () => {
+    viewLatest();
+  });
+  useHotkeys(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"], () => {
+    setInputDialogOpen(true);
+  });
+  useHotkeys("g", (e) => {
+    setInputDialogOpen(true);
+    e.preventDefault();
+  });
 
   return (
     <div className="p-3 w-full border-t bg-background">
