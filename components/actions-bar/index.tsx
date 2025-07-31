@@ -180,7 +180,6 @@ export default function ActionsBar({
           </Button>
           <Authenticated>
             <Button
-              disabled={loading}
               size="icon"
               variant="ghost"
               onClick={() => {
