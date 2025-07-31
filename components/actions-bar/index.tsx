@@ -78,6 +78,9 @@ export default function ActionsBar({
     setSaving(true);
     saveMutation({ num: num }).then(() => setSaving(false));
   });
+  useHotkeys("r", () => {
+    loadById(Math.floor(Math.random() * max));
+  });
 
   return (
     <div className="p-3 w-full border-t bg-background">
