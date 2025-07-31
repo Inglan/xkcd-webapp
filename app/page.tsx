@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { LoaderCircle, Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Ref, useEffect, useRef, useState } from "react";
 import { AuthLoading, useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
@@ -23,6 +23,7 @@ export default function Home() {
   const [max, setMax] = useState(0);
   const [loading, setLoading] = useState(true);
   const [cached, setCached] = useState(true);
+  const scrollingContainerRef = useRef(null);
 
   const getById = useAction(api.xkcd.getById);
   const getLatest = useAction(api.xkcd.getLatest);
@@ -77,17 +78,27 @@ export default function Home() {
     if (num !== max) loadById(num + 1);
   };
 
-  useHotkeys("ArrowRight", () => {
+  useHotkeys(["ArrowRight", "l"], () => {
     right();
   });
-  useHotkeys("ArrowLeft", () => {
+  useHotkeys(["ArrowLeft", "h"], () => {
     left();
   });
-  useHotkeys("l", () => {
-    right();
+  useHotkeys(["j", "ArrowDown"], () => {
+    if (scrollingContainerRef?.current) {
+      (scrollingContainerRef.current as HTMLDivElement).scrollBy({
+        top: 100,
+        behavior: "smooth",
+      });
+    }
   });
-  useHotkeys("h", () => {
-    left();
+  useHotkeys(["k", "ArrowUp"], () => {
+    if (scrollingContainerRef?.current) {
+      (scrollingContainerRef.current as HTMLDivElement).scrollBy({
+        top: -100,
+        behavior: "smooth",
+      });
+    }
   });
 
   return (
@@ -113,7 +124,10 @@ export default function Home() {
         </Button>
       </div>
 
-      <div className="flex flex-col overflow-x-auto grow mt-3 p-3">
+      <div
+        className="flex flex-col overflow-x-auto grow mt-3 p-3"
+        ref={scrollingContainerRef}
+      >
         {loading && <LoaderCircle className="animate-spin my-auto" />}
 
         {img && (
