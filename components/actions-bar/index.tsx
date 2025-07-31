@@ -146,6 +146,7 @@ export default function ActionsBar({
                   type="number"
                   value={inputtedNum}
                   max={max}
+                  min={1}
                   onKeyDown={(e) => {
                     if (e.key === "t" && inputtedNum === "") {
                       viewLatest();
