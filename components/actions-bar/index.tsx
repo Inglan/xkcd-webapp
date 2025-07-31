@@ -146,6 +146,12 @@ export default function ActionsBar({
                   type="number"
                   value={inputtedNum}
                   max={max}
+                  onKeyDown={(e) => {
+                    if (e.key === "t" && inputtedNum === "") {
+                      viewLatest();
+                      setInputDialogOpen(false);
+                    }
+                  }}
                   onChange={(e) => setInputtedNum(e.target.value)}
                 />
                 <DialogFooter>
