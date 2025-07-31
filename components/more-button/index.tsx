@@ -2,11 +2,25 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Drawer, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 import { EllipsisVertical, Share, Download } from "lucide-react";
 import { useMediaQuery } from "usehooks-ts";
 import { toast } from "sonner";
+import { useHotkeys } from "react-hotkeys-hook";
 
 type MoreButtonProps = {
   title?: string;
@@ -23,6 +37,9 @@ export default function MoreButton({
 }: MoreButtonProps) {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  useHotkeys("i", () => {
+    setOpen(!open);
+  });
   return (
     <>
       <Button size="icon" variant="ghost" onClick={() => setOpen(!open)}>
