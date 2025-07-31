@@ -41,6 +41,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Input } from "../ui/input";
+import { useHotkeys } from "react-hotkeys-hook";
 
 type ActionsBarProps = {
   title: string;
@@ -72,6 +73,11 @@ export default function ActionsBar({
   const [saving, setSaving] = useState(false);
   const [inputtedNum, setInputtedNum] = useState("");
   const [inputDialogOpen, setInputDialogOpen] = useState(false);
+
+  useHotkeys("s", () => {
+    setSaving(true);
+    saveMutation({ num: num }).then(() => setSaving(false));
+  });
 
   return (
     <div className="p-3 w-full border-t bg-background">
