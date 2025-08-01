@@ -116,6 +116,9 @@ export default function Home() {
           if (!localCache.find((item) => item.comic.num === i)) {
             getById({ id: i }).then((data) => {
               localCache.push(data);
+
+              let preloadImage = new Image();
+              preloadImage.src = data.comic.img;
             });
           }
         }
