@@ -23,6 +23,24 @@ export default function Home() {
   const [max, setMax] = useState(0);
   const [loading, setLoading] = useState(true);
   const [cached, setCached] = useState(true);
+  const [localCache, setLocalCache] = useState<
+    {
+      comic: {
+        month: string;
+        num: number;
+        link: string;
+        year: string;
+        news: string;
+        safe_title: string;
+        transcript: string;
+        alt: string;
+        img: string;
+        title: string;
+        day: string;
+      };
+      cached: boolean;
+    }[]
+  >([]);
   const scrollingContainerRef = useRef(null);
 
   const getById = useAction(api.xkcd.getById);
@@ -30,28 +48,39 @@ export default function Home() {
   const { theme, setTheme } = useTheme();
 
   function loadById(id: number) {
-    let previousNum = num;
-    let previousImg = img;
+    if (localCache.find((item) => item.comic.num === id)) {
+      const cachedItem = localCache.find((item) => item.comic.num === id);
+      setNum(cachedItem?.comic.num || 0);
+      setTitle(cachedItem?.comic.title || "");
+      setImg(cachedItem?.comic.img || "");
+      setAlt(cachedItem?.comic.alt || "");
+      setCached(cachedItem?.cached || false);
+      setLoading(false);
+    } else {
+      let previousNum = num;
+      let previousImg = img;
 
-    setNum(id);
-    setLoading(true);
-    setCached(true);
+      setNum(id);
+      setLoading(true);
+      setCached(true);
 
-    getById({ id })
-      .then((data) => {
-        setTitle(data.comic.title);
-        setImg(data.comic.img);
-        setAlt(data.comic.alt);
-        setCached(data.cached);
-        if (data.comic.img == previousImg) {
+      getById({ id })
+        .then((data) => {
+          localCache.push(data);
+          setTitle(data.comic.title);
+          setImg(data.comic.img);
+          setAlt(data.comic.alt);
+          setCached(data.cached);
+          if (data.comic.img == previousImg) {
+            setLoading(false);
+          }
+        })
+        .catch(() => {
           setLoading(false);
-        }
-      })
-      .catch(() => {
-        setLoading(false);
-        setNum(previousNum);
-        toast.error("Something went wrong");
-      });
+          setNum(previousNum);
+          toast.error("Something went wrong");
+        });
+    }
   }
 
   function viewLatest() {
