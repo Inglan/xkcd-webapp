@@ -94,7 +94,9 @@ export default function MoreButton({
                       {
                         loading: "Sharing...",
                         success: "Shared!",
-                        error: "Failed to share",
+                        error: (error) => {
+                          return error;
+                        },
                       },
                     );
                   } else {
