@@ -93,6 +93,7 @@ export default function Home() {
       setMax(data.comic.num);
       setCached(data.cached);
       setLoading(false);
+      localCache.push(data);
     });
   }
 
