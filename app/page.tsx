@@ -133,7 +133,7 @@ export default function Home() {
   return (
     <div className="h-screen w-screen flex flex-col items-center">
       <div className="flex flex-row container m-auto gap-1 justify-center items-center p-3">
-        xkcd-webapp
+        xkcd-webapp ({localCache.length} cached)
         <div className="grow"></div>
         <AuthLoading>
           <Skeleton className="h-[20px] w-[75px] rounded-full" />
