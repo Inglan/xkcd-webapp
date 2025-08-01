@@ -70,7 +70,9 @@ export default function Home() {
 
       getById({ id })
         .then((data) => {
-          localCache.push(data);
+          if (!localCache.find((item) => item.comic.num === data.comic.num)) {
+            localCache.push(data);
+          }
           setTitle(data.comic.title);
           setImg(data.comic.img);
           setAlt(data.comic.alt);
@@ -90,6 +92,9 @@ export default function Home() {
   function viewLatest() {
     setLoading(true);
     getLatest({}).then((data) => {
+      if (!localCache.find((item) => item.comic.num === data.comic.num)) {
+        localCache.push(data);
+      }
       setNum(data.comic.num);
       setTitle(data.comic.title);
       setImg(data.comic.img);
@@ -97,7 +102,6 @@ export default function Home() {
       setMax(data.comic.num);
       setCached(data.cached);
       setLoading(false);
-      localCache.push(data);
     });
   }
 
