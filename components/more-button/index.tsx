@@ -61,15 +61,25 @@ export default function MoreButton({
                   if (navigator.share) {
                     toast.promise(
                       new Promise(async (resolve, reject) => {
+                        if (!navigator.share) {
+                          reject("Sharing not supported");
+                        }
+                        if (!navigator.canShare()) {
+                          reject("Sharing not supported");
+                        }
                         try {
                           const image = await fetch(img);
                           const blob = await image.blob();
                           const filesArray = [
-                            new File([blob], num + ".png", {
-                              type:
-                                image.headers.get("content-type") ||
-                                "image/png",
-                            }),
+                            new File(
+                              [blob],
+                              num + img.split(".")[img.split(".").length - 1],
+                              {
+                                type:
+                                  image.headers.get("content-type") ||
+                                  "image/png",
+                              },
+                            ),
                           ];
 
                           navigator.share({
@@ -95,7 +105,33 @@ export default function MoreButton({
                 <Share />
                 Share
               </Button>
-              <Button variant="ghost">
+              <Button
+                variant="ghost"
+                onClick={() =>
+                  toast.promise(
+                    new Promise(async (resolve, reject) => {
+                      try {
+                        const image = await fetch(img);
+                        const blob = await image.blob();
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = "xkcd-" + num;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                        resolve("Downloaded");
+                      } catch (error) {
+                        reject(error);
+                      }
+                    }),
+                    {
+                      loading: "Downloading...",
+                      success: "Downloaded!",
+                      error: "Failed to download",
+                    },
+                  )
+                }
+              >
                 <Download />
                 Download
               </Button>
