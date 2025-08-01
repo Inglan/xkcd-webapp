@@ -111,7 +111,7 @@ export default function Home() {
 
   useEffect(() => {
     if (max) {
-      for (let i = num - 3; i < num + 3; i++) {
+      for (let i = num - 5; i < num + 5; i++) {
         if (i >= 0 && i <= max) {
           if (!localCache.find((item) => item.comic.num === i)) {
             getById({ id: i }).then((data) => {
