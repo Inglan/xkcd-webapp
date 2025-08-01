@@ -55,88 +55,7 @@ export default function MoreButton({
             </DialogHeader>
 
             <div className="grid grid-cols-2 gap-3">
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  if (navigator.share) {
-                    toast.promise(
-                      new Promise(async (resolve, reject) => {
-                        if (!navigator.share) {
-                          reject("Sharing not supported");
-                        }
-                        if (!navigator.canShare()) {
-                          reject("Sharing not supported");
-                        }
-                        try {
-                          const image = await fetch(img);
-                          const blob = await image.blob();
-                          const filesArray = [
-                            new File(
-                              [blob],
-                              num + img.split(".")[img.split(".").length - 1],
-                              {
-                                type:
-                                  image.headers.get("content-type") ||
-                                  "image/png",
-                              },
-                            ),
-                          ];
-
-                          navigator.share({
-                            files: filesArray,
-                          });
-
-                          resolve("Shared");
-                        } catch {
-                          reject("Failed to share");
-                        }
-                      }),
-                      {
-                        loading: "Sharing...",
-                        success: "Shared!",
-                        error: (error) => {
-                          return error;
-                        },
-                      },
-                    );
-                  } else {
-                    toast.error("Sharing is not supported on this device");
-                  }
-                }}
-              >
-                <Share />
-                Share
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={() =>
-                  toast.promise(
-                    new Promise(async (resolve, reject) => {
-                      try {
-                        const image = await fetch(img);
-                        const blob = await image.blob();
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement("a");
-                        a.href = url;
-                        a.download = "xkcd-" + num;
-                        a.click();
-                        URL.revokeObjectURL(url);
-                        resolve("Downloaded");
-                      } catch (error) {
-                        reject(error);
-                      }
-                    }),
-                    {
-                      loading: "Downloading...",
-                      success: "Downloaded!",
-                      error: "Failed to download",
-                    },
-                  )
-                }
-              >
-                <Download />
-                Download
-              </Button>
+              <Actions img={img} num={num} />
             </div>
           </DialogContent>
         </Dialog>
@@ -150,38 +69,98 @@ export default function MoreButton({
               </DrawerDescription>
             </DrawerHeader>
             <DrawerFooter className="grid grid-cols-2 gap-3">
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  if (navigator.share) {
-                    toast.promise(
-                      navigator.share({
-                        title,
-                        text: description,
-                        url: "https://xkcd.com/" + num,
-                      }),
-                      {
-                        loading: "Sharing...",
-                        success: "Shared!",
-                        error: "Failed to share",
-                      },
-                    );
-                  } else {
-                    toast.error("Sharing is not supported on this device");
-                  }
-                }}
-              >
-                <Share />
-                Share
-              </Button>
-              <Button variant="ghost">
-                <Download />
-                Download
-              </Button>
+              <Actions img={img} num={num} />
             </DrawerFooter>
           </DrawerContent>
         </Drawer>
       )}
+    </>
+  );
+}
+
+function Actions({ img, num }: { img: string; num: number }) {
+  return (
+    <>
+      <Button
+        variant="ghost"
+        onClick={() => {
+          if (navigator.share) {
+            toast.promise(
+              new Promise(async (resolve, reject) => {
+                if (!navigator.share) {
+                  reject("Sharing not supported");
+                }
+                if (!navigator.canShare()) {
+                  reject("Sharing not supported");
+                }
+                try {
+                  const image = await fetch(img);
+                  const blob = await image.blob();
+                  const filesArray = [
+                    new File(
+                      [blob],
+                      num + img.split(".")[img.split(".").length - 1],
+                      {
+                        type: image.headers.get("content-type") || "image/png",
+                      },
+                    ),
+                  ];
+
+                  navigator.share({
+                    files: filesArray,
+                  });
+
+                  resolve("Shared");
+                } catch {
+                  reject("Failed to share");
+                }
+              }),
+              {
+                loading: "Sharing...",
+                success: "Shared!",
+                error: (error) => {
+                  return error;
+                },
+              },
+            );
+          } else {
+            toast.error("Sharing is not supported on this device");
+          }
+        }}
+      >
+        <Share />
+        Share
+      </Button>
+      <Button
+        variant="ghost"
+        onClick={() =>
+          toast.promise(
+            new Promise(async (resolve, reject) => {
+              try {
+                const image = await fetch(img);
+                const blob = await image.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "xkcd-" + num;
+                a.click();
+                URL.revokeObjectURL(url);
+                resolve("Downloaded");
+              } catch (error) {
+                reject(error);
+              }
+            }),
+            {
+              loading: "Downloading...",
+              success: "Downloaded!",
+              error: "Failed to download",
+            },
+          )
+        }
+      >
+        <Download />
+        Download
+      </Button>
     </>
   );
 }
