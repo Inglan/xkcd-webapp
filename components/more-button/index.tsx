@@ -60,10 +60,26 @@ export default function MoreButton({
                 onClick={() => {
                   if (navigator.share) {
                     toast.promise(
-                      navigator.share({
-                        title,
-                        text: description,
-                        url: "https://xkcd.com/" + num,
+                      new Promise(async (resolve, reject) => {
+                        try {
+                          const image = await fetch(img);
+                          const blob = await image.blob();
+                          const filesArray = [
+                            new File([blob], num + ".png", {
+                              type:
+                                image.headers.get("content-type") ||
+                                "image/png",
+                            }),
+                          ];
+
+                          navigator.share({
+                            files: filesArray,
+                          });
+
+                          resolve("Shared");
+                        } catch {
+                          reject("Failed to share");
+                        }
                       }),
                       {
                         loading: "Sharing...",
