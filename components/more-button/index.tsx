@@ -21,6 +21,7 @@ import { EllipsisVertical, Share, Download } from "lucide-react";
 import { useMediaQuery } from "usehooks-ts";
 import { toast } from "sonner";
 import { useHotkeys } from "react-hotkeys-hook";
+import Link from "next/link";
 
 type MoreButtonProps = {
   title?: string;
@@ -56,6 +57,11 @@ export default function MoreButton({
 
             <div className="grid grid-cols-2 gap-3">
               <Actions img={img} num={num} />
+              <small>
+                <Link href={`https://xkcd.com/${num}`} target="_blank">
+                  View on xkcd website
+                </Link>
+              </small>
             </div>
           </DialogContent>
         </Dialog>
@@ -70,6 +76,11 @@ export default function MoreButton({
             </DrawerHeader>
             <DrawerFooter className="grid grid-cols-2 gap-3">
               <Actions img={img} num={num} />
+              <small>
+                <Link href={`https://xkcd.com/${num}`} target="_blank">
+                  View on xkcd website
+                </Link>
+              </small>
             </DrawerFooter>
           </DrawerContent>
         </Drawer>
