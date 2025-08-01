@@ -27,26 +27,6 @@ async function cacheComic(
   },
   ctx: ActionCtx,
 ) {
-  const cached = await ctx.runQuery(internal.xkcd.getCachedById, {
-    id: data.num,
-  });
-
-  if (cached) {
-    return {
-      month: data.month,
-      num: data.num,
-      link: data.link,
-      year: data.year,
-      news: data.news,
-      safe_title: data.safe_title,
-      transcript: data.transcript,
-      alt: data.alt,
-      img: cached.img,
-      title: data.title,
-      day: data.day,
-    };
-  }
-
   const imageUrl = data.img;
 
   const response = await fetch(imageUrl);
@@ -108,6 +88,14 @@ export const getCachedById = internalQuery({
 
 export const writeCachedComic = internalMutation({
   handler: async (ctx, args) => {
+    if (
+      await ctx.db
+        .query("comics")
+        .withIndex("by_num", (q) => q.eq("num", args.num))
+        .first()
+    ) {
+      return;
+    }
     await ctx.db.insert("comics", {
       month: args.month,
       num: args.num,
