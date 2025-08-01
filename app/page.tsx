@@ -85,20 +85,6 @@ export default function Home() {
           toast.error("Something went wrong");
         });
     }
-
-    for (let i = id - 3; i < id + 3; i++) {
-      if (i >= 0 && i <= max) {
-        if (!localCache.find((item) => item.comic.num === i)) {
-          getById({ id: i }).then((data) => {
-            localCache.push(data);
-          });
-        }
-      }
-    }
-
-    if (localCache.length > 50) {
-      localCache.splice(0, localCache.length - 50);
-    }
   }
 
   function viewLatest() {
@@ -118,6 +104,24 @@ export default function Home() {
   useEffect(() => {
     viewLatest();
   }, []);
+
+  useEffect(() => {
+    if (max) {
+      for (let i = num - 3; i < num + 3; i++) {
+        if (i >= 0 && i <= max) {
+          if (!localCache.find((item) => item.comic.num === i)) {
+            getById({ id: i }).then((data) => {
+              localCache.push(data);
+            });
+          }
+        }
+      }
+
+      if (localCache.length > 50) {
+        localCache.splice(0, localCache.length - 50);
+      }
+    }
+  }, [num]);
 
   const left = () => {
     if (num !== 0) loadById(num - 1);
@@ -152,7 +156,8 @@ export default function Home() {
   return (
     <div className="h-screen w-screen flex flex-col items-center">
       <div className="flex flex-row container m-auto gap-1 justify-center items-center p-3">
-        xkcd-webapp ({localCache.length} cached)
+        xkcd-webapp ({localCache.length} cached) (
+        {localCache.map((item) => item.comic.num).join(", ")})
         <div className="grow"></div>
         <AuthLoading>
           <Skeleton className="h-[20px] w-[75px] rounded-full" />
