@@ -48,6 +48,9 @@ export default function Home() {
   const { theme, setTheme } = useTheme();
 
   function loadById(id: number) {
+    let previousNum = num;
+    let previousImg = img;
+
     if (localCache.find((item) => item.comic.num === id)) {
       const cachedItem = localCache.find((item) => item.comic.num === id);
       setNum(cachedItem?.comic.num || 0);
@@ -55,11 +58,12 @@ export default function Home() {
       setImg(cachedItem?.comic.img || "");
       setAlt(cachedItem?.comic.alt || "");
       setCached(cachedItem?.cached || false);
-      setLoading(false);
+      if (cachedItem?.comic.img == previousImg) {
+        setLoading(false);
+      } else {
+        setLoading(true);
+      }
     } else {
-      let previousNum = num;
-      let previousImg = img;
-
       setNum(id);
       setLoading(true);
       setCached(true);
@@ -80,6 +84,20 @@ export default function Home() {
           setNum(previousNum);
           toast.error("Something went wrong");
         });
+    }
+
+    for (let i = id - 3; i < id + 3; i++) {
+      if (i >= 0 && i <= max) {
+        if (!localCache.find((item) => item.comic.num === i)) {
+          getById({ id: i }).then((data) => {
+            localCache.push(data);
+          });
+        }
+      }
+    }
+
+    if (localCache.length > 50) {
+      localCache.splice(0, localCache.length - 50);
     }
   }
 
