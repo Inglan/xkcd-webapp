@@ -55,7 +55,17 @@ export default function AccountDrawer() {
         </DrawerHeader>
         <Unauthenticated>
           <div className="p-4 flex flex-col gap-3">
-            <Button disabled>Google</Button>
+            <Button
+              onClick={() => {
+                toast.promise(signIn("github"), {
+                  loading: "Processing",
+                  success: "Redirecting to Github",
+                  error: "Something went wrong",
+                });
+              }}
+            >
+              Google
+            </Button>
             <Button
               onClick={() => {
                 toast.promise(signIn("github"), {
