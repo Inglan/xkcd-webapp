@@ -59,7 +59,7 @@ export default function AccountDrawer() {
               onClick={() => {
                 toast.promise(signIn("github"), {
                   loading: "Processing",
-                  success: "Redirecting to Github",
+                  success: "Redirecting",
                   error: "Something went wrong",
                 });
               }}
@@ -70,12 +70,12 @@ export default function AccountDrawer() {
               onClick={() => {
                 toast.promise(signIn("github"), {
                   loading: "Processing",
-                  success: "Redirecting to Github",
+                  success: "Redirecting",
                   error: "Something went wrong",
                 });
               }}
             >
-              Github
+              GitHub
             </Button>
             <Button
               onClick={() => {
