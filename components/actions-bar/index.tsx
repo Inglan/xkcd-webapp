@@ -93,7 +93,7 @@ export default function ActionsBar({
   });
 
   return (
-    <div className="p-3 w-full border-t bg-background">
+    <div className="p-3 w-full bg-background">
       <div className="grid md:grid-cols-[1fr_auto_1fr] grid-cols-[1fr_auto_auto] gap-2 max-w-xl mx-auto">
         <div className="flex flex-row gap-2 mr-auto">
           {!cached && (
